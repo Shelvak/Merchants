@@ -1,19 +1,34 @@
 class User < ActiveRecord::Base
+  include RoleModel
+  roles :admin, :seller
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :recoverable, :rememberable
+  devise :database_authenticatable, :recoverable, :rememberable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :username, :password, :password_confirmation,
-    :remember_me
+    :remember_me, :role
   # attr_accessible :title, :body
 
-  validates :email, :username, :password, :password_confirmation,
-    presence: true
-  validates :email, :username, uniqueness: true
+  validates :email, :username, presence: true, uniqueness: true
+
+  after_initialize :set_default_role
 
   def to_s
     self.username
+  end
+
+  def set_default_role
+    self.role ||= :regular
+  end
+
+  def role
+    self.roles.first.try(:to_sym)
+  end
+
+  def role=(role)
+    self.roles = [role]
   end
 end

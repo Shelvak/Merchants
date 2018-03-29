@@ -13,6 +13,7 @@
 
   devise:
     failure:
+      not_found_in_database: "Usuario no encontrado"
       already_authenticated: 'Ya está conectado/a.'
       unauthenticated: 'Necesita acceder a su cuenta o registrarse antes de continuar.'
       unconfirmed: 'Necesita confirmar su cuenta antes de continuar.'

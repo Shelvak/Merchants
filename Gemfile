@@ -28,3 +28,7 @@ end
 #group :production do
 gem 'mysql2', '0.3.14'
 #end
+#
+gem 'role_model'
+gem 'cancan'  # usamos el mas viejo
+gem 'byebug'

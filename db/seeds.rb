@@ -5,3 +5,16 @@
 #
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
+
+user = User.new(
+  name: 'Admin',
+  lastname: 'Admin',
+  username: 'admin',
+  email: 'admin@merchants.com',
+  password: '123456',
+  password_confirmation: '123456',
+  role: :admin
+)
+
+puts(user.save ? 'User [OK]' : user.errors.full_messages.join("\n"))
+

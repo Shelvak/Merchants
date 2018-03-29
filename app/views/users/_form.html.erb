@@ -7,10 +7,15 @@
         <%= f.input :email, required: true, input_html: { maxlength: 255 } %>
         <%= f.input :password, required: true, input_html: { maxlength: 255 } %>
         <%= f.input :password_confirmation, input_html: { maxlength: 255 } %>
+        <% if can? :assign_roles, @user %>
+          <label><%= User.human_attribute_name 'roles', count: 1 %></label>
+          <%= show_user_roles_options(f) %>
+        <% end %>
+
       </div>
     </div>
   </div>
-  
+
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
