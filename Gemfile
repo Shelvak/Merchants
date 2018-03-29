@@ -1,13 +1,15 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.6'
+gem 'rails', '~> 3.2'
 
-gem 'validates_timeliness'
+gem 'jc-validates_timeliness'
 gem 'sqlite3'
 gem 'will_paginate'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'test-unit'
 gem 'capistrano', '2.14.1'
-gem 'passenger', '3.0.19'
+# gem 'passenger'
 gem 'simple_form'
 gem 'serialport'
 gem 'paper_trail'
@@ -23,6 +25,6 @@ group :development do
   gem 'thin'
 end
 
-group :production do
-  gem 'mysql2'
-end
+#group :production do
+gem 'mysql2', '0.3.14'
+#end

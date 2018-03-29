@@ -1,4 +1,4 @@
-<h1><%= t 'titles.store'%></h1>
+<h1><%= t('titles.store') %></h1>
 
   <%= form_tag "/store", method: :get do %>
     <%= text_field_tag :search, params[:search], autofocus: true, class: 'search' %>
@@ -17,7 +17,7 @@
 <th><%= Product.human_attribute_name(:price)%></th>
 <th><%= Product.human_attribute_name(:stock)%></th>
 </tr>
-  
+
 <%= render @products %>
 
 </table>

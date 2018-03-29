@@ -3,7 +3,7 @@
 class Bill < ActiveRecord::Base
   require 'serialport'
   @@seq = rand(95) + 32
-  
+
   before_validation :assign_barcode_to_bill
   after_save :plus_to_client_spend, :send_to_print,
     on: :create
@@ -16,7 +16,7 @@ class Bill < ActiveRecord::Base
   #validates
   validates :barcode, :amount, :presence => true
   validates :amount, :numericality => {:greater_than => 0 }
-  
+
   #relations
   belongs_to :client
   belongs_to :order
@@ -36,18 +36,19 @@ class Bill < ActiveRecord::Base
       (Bill.where("bill_kind != 'A'").order(:id).last.try(:barcode) || 0) + 1
     end
   end
-  
+
   def plus_to_client_spend
     bill = Bill.order('id DESC').first
 
     if bill.client_id
-      client = Client.find(bill.client_id) 
+      client = Client.find(bill.client_id)
       client.spend += bill.amount
       client.update_attributes(spend: client.spend)
     end
   end
 
   def send_to_print
+    return if Rails.env.development?
     self.order.tap do |o|
       self.client_kind.tap do |c_k| # A-B-C-X
 
@@ -57,7 +58,7 @@ class Bill < ActiveRecord::Base
               0x60, [
                 'T', 'C', self.bill_kind, '1', 'P', '17','I', c_k,
                 c.name, c.last_name,
-                (c_k != 'F' && c.uic_type ? c.uic_type : 'DNI'), 
+                (c_k != 'F' && c.uic_type ? c.uic_type : 'DNI'),
                 (c_k != 'F' && c.uic_type ? c.uic.delete('-') : c.document),
                 'N', c.address.first(40), c.address[40..80].to_s,
                 c.location.first(40),
@@ -80,7 +81,7 @@ class Bill < ActiveRecord::Base
         if self.discount > 0
           pay_discount = (o.price * self.discount).round.to_i
           to_pay = ((o.price - pay_discount / 100).round(2) * 100).to_i
-          
+
           send_package(0x62, [
                 'DESCUENTO',
                 1000,
@@ -102,8 +103,9 @@ class Bill < ActiveRecord::Base
     @@seq += 1
     @@seq = 32 if @@seq > 127
   end
-  
+
   def send_package(code, parameters)
+    return;
     port = SerialPort.open('/dev/ttyUSB0')
     port.baud = 9600
     port.stop_bits = 1
@@ -111,7 +113,7 @@ class Bill < ActiveRecord::Base
     port.parity = 0
 
     separated_params = []
-    
+
     if parameters.present?
       parameters.each do |e| # Add the 0x1c separator between elements
         separated_params << 0x1c
@@ -122,7 +124,7 @@ class Bill < ActiveRecord::Base
         end
       end
     end
-    
+
     package = [0x02, @@seq, code, separated_params, 0x03]
     hex_sum = '%04x' % package.flatten!.inject(0) { |t, b| t + b.ord } # Calc Checksum
 
@@ -173,7 +175,7 @@ class Bill < ActiveRecord::Base
         if bill.client_id
           bill.client.tap do |c|
             csv <<  [
-              bill.barcode, 
+              bill.barcode,
               I18n.l(bill.created_at, format: :smart),
               c,
               c.uic_type.present? ? c.uic : c.document,
@@ -193,5 +195,5 @@ class Bill < ActiveRecord::Base
         end
       end
     end
-  end 
+  end
 end
