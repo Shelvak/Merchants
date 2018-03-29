@@ -14,13 +14,13 @@
     <%= c.document %>
   </p>
 
-  <p>  
+  <p>
     <%= raw(
       "<b> #{Client.human_attribute_name(:bill_kind)} </b> #{c.bill_kind}"
     ) if c.bill_kind.present? %>
   </p>
 
-  <p>  
+  <p>
     <%= raw(
       "<b> #{Client.human_attribute_name(:address)} </b> #{c.address}"
     ) if c.address.present? %>
@@ -85,8 +85,11 @@
   <%= link_to t('label.edit'), edit_client_path(c) %> |
   <%= link_to(
     t('label.destroy'), c, confirm: t('label.sure'), method: :delete
-  ) %> |
-  <%= link_to t('label.back'), clients_path %> | 
-  <%= link_to 'Exportar a CSV', client_path(@client, format: 'csv') %>
+  ) if can?(:destroy, @client) %> |
+  <%= link_to t('label.back'), clients_path %>
+  <% if can_export? %>
+    |
+    <%= link_to 'Exportar a CSV', client_path(@client, format: 'csv') %>
+  <% end %>
 
 <% end %>

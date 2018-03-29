@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130129215434) do
+ActiveRecord::Schema.define(:version => 20180329165707) do
 
   create_table "bills", :force => true do |t|
     t.integer  "barcode",     :limit => 8,                                                 :null => false
@@ -137,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20130129215434) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.integer  "roles_mask",             :default => 0,  :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

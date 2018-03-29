@@ -3,4 +3,40 @@
   <%= link_to t('label.list'), users_path %>
 <% end %>
 
-<%= render 'form' %>
+<%= simple_form_for(@user) do |f| %>
+  <div class="row">
+    <div class="span12">
+      <div class="form-inputs">
+        <%= f.input :username, input_html: { autofocus: true, maxlength: 255 } %>
+        <%= f.input :email, required: true, input_html: { maxlength: 255 } %>
+        <% if can? :assign_roles, @user %>
+          <label><%= User.human_attribute_name 'roles', count: 1 %></label>
+          <%= show_user_roles_options(f) %>
+        <% end %>
+
+        <br />
+        <%= f.button :submit, t('view.users.update_profile'), class: 'btn-primary' %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<br />
+<br />
+<br />
+<br />
+
+<%= simple_form_for(@user, html: { id: "edit_password_#{@user.to_param}" }) do |f| %>
+  <div class="row">
+    <div class="span12">
+      <div class="form-inputs">
+        <%= f.input :password, required: true, input_html: { maxlength: 255 } %>
+        <%= f.input :password_confirmation, input_html: { maxlength: 255 } %>
+
+        <br />
+        <%= f.button :submit, t('view.users.update_password') %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

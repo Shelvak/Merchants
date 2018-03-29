@@ -1,7 +1,9 @@
-# enconding: UTF-8
-
 class MonthliesController < ApplicationController
-  
+  before_filter :raise_unless_admin!
+
+  check_authorization
+  load_and_authorize_resource class: 'Box'
+
   # GET /monthlies
   # GET /monthlies.xml
   def index

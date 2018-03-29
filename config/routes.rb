@@ -2,15 +2,16 @@ Merchants::Application.routes.draw do
   devise_for :users
 
   resources :payments, :categories,
-    :line_items, :carts, :products, :orders, :users
-  
+    :line_items, :carts, :products, :users
+  resources :orders, except: [:edit, :update]
+
   resources :bills, except: [:destroy] do
     get :print, on: :member
   end
-  
-  match 'store' => 'store#index', :via => 'get' 
+
+  match 'store' => 'store#index', :via => 'get'
   match 'monthlies' => 'monthlies#index', via: 'get'
-  
+
   resources :clients do
     get :autocomplete_for_client, on: :collection
   end

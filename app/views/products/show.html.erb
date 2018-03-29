@@ -41,5 +41,5 @@
 
 
 <%= link_to t('label.edit'), edit_product_path(@product) %> |
-<%= link_to t('label.destroy'), @product, :confirm => t('label.sure'), :method => :delete  %> |
+<%= link_to(t('label.destroy'), @product, :confirm => t('label.sure'), :method => :delete) if can?(:destroy, @product)  %> |
 <%= link_to t('label.back'), products_path %>

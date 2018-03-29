@@ -1,7 +1,10 @@
 class UsersController < ApplicationController
- 
+
+  check_authorization
+  load_and_authorize_resource
+
   layout ->(c) {c.request.xhr? ? false : 'application'}
-  
+
   # GET /users
   # GET /users.json
   def index
@@ -60,9 +63,10 @@ class UsersController < ApplicationController
   # PUT /users/1.json
   def update
     @user = User.find(params[:id])
+    method = params[:user][:password].present? ? :update_attributes : :update_without_password
 
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      if @user.send(method, params[:user])
         format.html { redirect_to(@user, :notice => t('user.updated')) }
         format.json  { head :ok }
       else

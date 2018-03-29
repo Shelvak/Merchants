@@ -26,6 +26,8 @@
   <b>A pagar por el cliente: </b><%= number_to_currency(@bill.amount * (1 - @bill.discount/100)) %>
 </p>
 
-<%= link_to t('label.back'), bills_path %>
+<%= link_to t('label.back'), bills_path %> |
 
-<%= link_to 'Re-Imprimir', print_bill_path(@bill) %>
+<%= link_to 'Re-Imprimir', print_bill_path(@bill) %> |
+
+<%= link_to 'Editar', edit_bill_path(@bill) %>

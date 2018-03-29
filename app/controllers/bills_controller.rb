@@ -1,10 +1,15 @@
 class BillsController < ApplicationController
 
+  check_authorization
+  load_and_authorize_resource
+
   # GET /bills
   # GET /bills.xml
   def index
-    @bills = Bill.order('id DESC').paginate(page: params[:page], per_page: 15)
-    
+    @bills = Bill.order('id DESC')
+    @bills = @bills.where('created_at > :yesterday', yesterday: 1.day.ago) if current_user.seller?
+    @bills = @bills.paginate(page: params[:page], per_page: 15)
+
     respond_to do |format|
       format.html # index.html.erb
       format.csv  { render csv: bills_scoped, filename: "bills #{Date.today}" }
@@ -26,7 +31,7 @@ class BillsController < ApplicationController
   # GET /bills/new.xml
   def new
     @bill = Bill.new
-    
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @bill }
@@ -85,7 +90,7 @@ class BillsController < ApplicationController
     else
       bills = Bill.scoped
     end
-      
+
     bills.order('barcode DESC')
   end
 end
