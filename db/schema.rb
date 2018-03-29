@@ -123,6 +123,21 @@ ActiveRecord::Schema.define(:version => 20180329165707) do
   add_index "products", ["barcode"], :name => "index_products_on_barcode", :unique => true
   add_index "products", ["name"], :name => "index_products_on_name"
 
+  create_table "shift_closures", :force => true do |t|
+    t.datetime "start_at",                                                                  :null => false
+    t.datetime "finish_at"
+    t.decimal  "initial_amount",              :precision => 10, :scale => 0, :default => 0, :null => false
+    t.decimal  "cashbox_amount",              :precision => 10, :scale => 0, :default => 0, :null => false
+    t.text     "first_and_last_info_to_json"
+    t.decimal  "payoffs",                     :precision => 10, :scale => 0, :default => 0, :null => false
+    t.decimal  "system_amount",               :precision => 10, :scale => 0, :default => 0, :null => false
+    t.decimal  "final_amount",                :precision => 10, :scale => 0, :default => 0, :null => false
+    t.integer  "user_id",                                                                   :null => false
+    t.text     "comments"
+    t.datetime "created_at",                                                                :null => false
+    t.datetime "updated_at",                                                                :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false

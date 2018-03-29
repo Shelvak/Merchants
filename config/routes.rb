@@ -5,6 +5,8 @@ Merchants::Application.routes.draw do
     :line_items, :carts, :products, :users
   resources :orders, except: [:edit, :update]
 
+  resources :shift_closures
+
   resources :bills, except: [:destroy] do
     get :print, on: :member
   end

@@ -1,0 +1,176 @@
+<div class="readonly-data">
+  <h2><%= t('view.shift_closures.title') %></h2>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'start_at' %></b>:
+        <%= l @shift_closure.start_at %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'initial_amount' %></b>:
+        <%= number_to_currency @shift_closure.initial_amount %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'cashbox_amount' %></b>:
+        <%= number_to_currency @shift_closure.cashbox_amount %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'system_amount' %></b>:
+        <% if @shift_closure.system_amount.zero? && current_user.not_shifted %>
+          <%= number_to_currency @shift_closure.calc_system_amount(partial=true) %> (parcial)
+        <% else %>
+          <%= number_to_currency @shift_closure.system_amount %>
+        <% end %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'total_amount' %></b>:
+        <%= number_to_currency @shift_closure.total_amount %>
+      </p>
+    </div>
+    <div class="span6">
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'finish_at' %></b>:
+        <%= l(@shift_closure.finish_at) if @shift_closure.finish_at%>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'administration_copies' %></b>:
+        <%= @shift_closure.administration_copies %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'failed_copies' %></b>:
+        <%= @shift_closure.failed_copies %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'user_id' %></b>:
+        <%= @shift_closure.user %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'helper_user_id' %></b>:
+        <%= @shift_closure.helper_user %>
+      </p>
+    </div>
+  </div>
+  <hr />
+  <p>
+    <div class="row-fluid">
+      <div class="span6">
+
+        <b><%= ShiftClosure.human_attribute_name 'printers_stats' %></b>:
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th><%= ShiftClosure.human_attribute_name 'printer' %></th>
+              <th><%= ShiftClosure.human_attribute_name 'counter' %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @shift_closure.printers_stats.each do |printer, counter| %>
+              <tr>
+                <td><%= ::CustomCups.printer_name_for(printer) %></td>
+                <td><%= number_to_delimited(counter) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <div class="span6">
+        <% if @shift_closure.withdraws.any? %>
+        <b><%= ShiftClosure.human_attribute_name 'withdraws' %></b>:
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th><%= Withdraw.human_attribute_name 'amount' %></th>
+                <th><%= Withdraw.human_attribute_name 'collected_at' %></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @shift_closure.withdraws.order(:collected_at).each do |withdraw| %>
+                <tr>
+                  <td><%= number_to_currency withdraw.amount %></td>
+                  <td><%= l(withdraw.collected_at) %></td>
+                  <td><%= withdraw.user %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <%= t('view.shift_closures.without_withdraws') %>
+        <% end %>
+        <br />
+
+        <% if @shift_closure.upfronts.any? %>
+        <b><%= ShiftClosure.human_attribute_name 'upfronts' %></b>:
+          <table class="table table-condensed">
+            <thead>
+              <tr>
+                <th><%= Upfront.human_attribute_name 'amount' %></th>
+                <th><%= Upfront.human_attribute_name 'operator_id' %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @shift_closure.upfronts.each do |upfront| %>
+                <tr>
+                  <td><%= number_to_currency upfront.amount %></td>
+                  <td><%= upfront.operator %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+        <br />
+
+        <b><%= t('view.shift_closures.edited_by') %></b>:
+        <table class="table table-condensed">
+          <thead>
+            <th><%= ShiftClosure.human_attribute_name 'user_id' %></th>
+            <th><%= ShiftClosure.human_attribute_name 'updated_at' %></th>
+          </thead>
+          <tbody>
+            <% @shift_closure.versions.reverse.each do |version| %>
+              <tr>
+                <td><%= show_who_changed_version(version) %></td>
+                <td><%= l(version.created_at, format: :minimal) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </p>
+  <p>
+    <b><%= ShiftClosure.human_attribute_name 'comments' %></b>:
+    <div class="well">
+      <%= simple_format @shift_closure.comments %>
+    </div>
+  </p>
+
+</div>
+<div class="form-actions">
+  <% if @shift_closure.finish_at.present? %>
+    <%= link_to t('view.shift_closures.edit_comment'),
+      '#', data: { target: '#comment', toggle: 'modal' } %> |
+  <% end %>
+  <% if @shift_closure.finish_at.blank? || current_user.not_shifted? %>
+    <%= link_to t('label.edit'), edit_shift_closure_path(@shift_closure) %> |
+  <% end %>
+  <%= link_to t('label.list'), shift_closures_path %>
+</div>
+
+<div class="modal fade hide" id="comment">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">&times;</button>
+    <h3><%= t('view.shift_closures.edit_comment') %></h3>
+  </div>
+
+  <div class="modal-body">
+    <%= simple_form_for @shift_closure,
+      url: update_comment_shift_closure_path(@shift_closure),
+      method: :patch do |f| %>
+
+      <%= f.input :comments, label: false, input_html: { rows: 5, class: 'span5' } %>
+      <%= f.button :submit, class: 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
