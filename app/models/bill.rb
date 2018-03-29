@@ -105,7 +105,7 @@ class Bill < ActiveRecord::Base
   end
 
   def send_package(code, parameters)
-    return;
+    return if Rails.env.development?
     port = SerialPort.open('/dev/ttyUSB0')
     port.baud = 9600
     port.stop_bits = 1
