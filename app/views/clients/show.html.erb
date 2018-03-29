@@ -85,7 +85,7 @@
   <%= link_to t('label.edit'), edit_client_path(c) %> |
   <%= link_to(
     t('label.destroy'), c, confirm: t('label.sure'), method: :delete
-  ) %> |
+  ) if can?(:destroy, @client) %> |
   <%= link_to t('label.back'), clients_path %>
   <% if can_export? %>
     |

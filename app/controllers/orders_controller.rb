@@ -45,9 +45,9 @@ class OrdersController < ApplicationController
   end
 
   # GET /orders/1/edit
-  def edit
-    @order = Order.find(params[:id])
-  end
+  # def edit
+  #   @order = Order.find(params[:id])
+  # end
 
   # POST /orders
   # POST /orders.json
@@ -72,19 +72,19 @@ class OrdersController < ApplicationController
 
   # PUT /orders/1
   # PUT /orders/1.json
-  def update
-    @order = Order.find(params[:id])
+  # def update
+  #   @order = Order.find(params[:id])
 
-    respond_to do |format|
-      if @order.update_attributes(params[:order])
-        format.html { redirect_to @order, notice: t('order.updated') }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  #   respond_to do |format|
+  #     if @order.update_attributes(params[:order])
+  #       format.html { redirect_to @order, notice: t('order.updated') }
+  #       format.json { head :ok }
+  #     else
+  #       format.html { render action: "edit" }
+  #       format.json { render json: @order.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # DELETE /orders/1
   # DELETE /orders/1.json

@@ -23,7 +23,7 @@
   <% end %>
   </tr>
   <tr><td colspan="4">Total: <%= number_to_currency(@order.price) %></td></tr>
-  
+
 </table>
-<%= link_to t('label.edit'), edit_order_path(@order) %> |
+<%# = link_to t('label.edit'), edit_order_path(@order) %> |
 <%= link_to t('label.back'), orders_path %>
