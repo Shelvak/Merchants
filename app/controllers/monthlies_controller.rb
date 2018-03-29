@@ -1,7 +1,8 @@
-# enconding: UTF-8
-
 class MonthliesController < ApplicationController
-  
+
+  check_authorization
+  load_and_authorize_resource
+
   # GET /monthlies
   # GET /monthlies.xml
   def index

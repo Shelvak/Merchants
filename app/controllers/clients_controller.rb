@@ -1,7 +1,10 @@
 class ClientsController < ApplicationController
- 
+
+  check_authorization
+  load_and_authorize_resource
+
   layout ->(c) {c.request.xhr? ? false : 'application'}
-  
+
   # GET /clients
   # GET /clients.json
   def index
@@ -91,10 +94,10 @@ class ClientsController < ApplicationController
       format.json  { head :ok }
     end
   end
-  
+
   def autocomplete_for_client
     @clients = Client.with_client(params[:q])
-       
+
     respond_to do |format|
       format.json { render json: @clients }
     end

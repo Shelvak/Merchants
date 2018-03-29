@@ -1,7 +1,10 @@
 class ProductsController < ApplicationController
 
-  proc {|c| c.request.xhr? ? false : 'application'}
-  
+  check_authorization
+  load_and_authorize_resource
+
+  layout ->(c) { c.request.xhr? ? false : 'application'}
+
   # GET /products
   # GET /products.xml
   def index

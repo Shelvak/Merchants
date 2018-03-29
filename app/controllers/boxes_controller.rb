@@ -1,5 +1,8 @@
 class BoxesController < ApplicationController
-  
+
+  check_authorization
+  load_and_authorize_resource
+
   # GET /boxes
   # GET /boxes.json
   def index
@@ -102,7 +105,7 @@ class BoxesController < ApplicationController
     else
       boxes = Box.scoped
     end
-      
+
     boxes.order('id DESC')
   end
 end

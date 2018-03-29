@@ -1,5 +1,8 @@
 class PaymentsController < ApplicationController
-  
+
+  check_authorization
+  load_and_authorize_resource
+
   # GET /payments/1
   # GET /payments/1.json
   def show
@@ -10,7 +13,7 @@ class PaymentsController < ApplicationController
       format.json { render json: @payment }
     end
   end
-  
+
   # POST /payments
   # POST /payments.json
   def create

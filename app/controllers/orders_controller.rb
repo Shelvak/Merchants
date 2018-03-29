@@ -1,7 +1,10 @@
 class OrdersController < ApplicationController
-  
+
+  check_authorization
+  load_and_authorize_resource
+
   layout ->(c) {c.request.xhr? ? false : 'application'}
-  
+
   # GET /orders
   # GET /orders.json
   def index
@@ -18,7 +21,7 @@ class OrdersController < ApplicationController
   # GET /orders/1.json
   def show
     @order = Order.find(params[:id])
-    
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @order }
@@ -32,7 +35,7 @@ class OrdersController < ApplicationController
     if @cart.line_items.empty?
       redirect_to store_url, notice: t('cart.emplied')
     end
-    
+
     @order = Order.new
     @order.add_line_items_from_cart(current_cart)
     respond_to do |format|
@@ -94,10 +97,10 @@ class OrdersController < ApplicationController
       format.json { head :ok }
     end
   end
-  
+
   def autocomplete_for_client
     @clients = Client.with_client(params[:q])
-       
+
     respond_to do |format|
       format.json { render json: @clients }
     end
@@ -114,7 +117,7 @@ class OrdersController < ApplicationController
     else
       orders = Order.scoped
     end
-      
+
     orders.order('id DESC')
   end
 end
