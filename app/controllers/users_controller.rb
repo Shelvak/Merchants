@@ -50,7 +50,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to(@user, :notice => t('user.create')) }
+        format.html { redirect_to(@user, :notice => t('view.users.created')) }
         format.json  { render json: @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }
@@ -67,7 +67,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.send(method, params[:user])
-        format.html { redirect_to(@user, :notice => t('user.updated')) }
+        format.html { redirect_to(@user, :notice => t('view.users.updated')) }
         format.json  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -83,7 +83,7 @@ class UsersController < ApplicationController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to(users_url, notice: t('user.destroyed')) }
+      format.html { redirect_to(users_url, notice: t('view.users.destroyed')) }
       format.json  { head :ok }
     end
   end

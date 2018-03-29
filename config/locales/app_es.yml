@@ -77,7 +77,7 @@ es:
     destroy: 'Eliminar'
     editing: 'Editando'
     sure: 'Seguro??'
-  
+
   new:
     bill: "Nueva Factura"
     client: "Nuevo Cliente"
@@ -113,6 +113,12 @@ es:
     without_client: 'Sin Cliente'
     to_amount: 'A la cuenta $'
   view:
+    users:
+      update_profile: "Actualizar"
+      update_password: "Actualizar password"
+      updated: "Actualizado"
+      created: "Creado"
+      destroyed: "Borrado"
     clients:
       client_kind:
         iva_resp_insc: 'IVA RESPONSABLE INSCRIPTO'
