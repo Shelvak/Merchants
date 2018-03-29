@@ -29,5 +29,8 @@
 <br />
 <br />
 <br />
-<%= link_to "Excel con todas", bills_path(format: "csv") %>
-<%= link_to "Excel con mes", '#', class: 'excel_with_month' %>
+
+<% if can_export? %>
+  <%= link_to "Excel con todas", bills_path(format: "csv") %> |
+  <%= link_to "Excel con mes", '#', class: 'excel_with_month' %>
+<% end %>

@@ -6,7 +6,9 @@ class BillsController < ApplicationController
   # GET /bills
   # GET /bills.xml
   def index
-    @bills = Bill.order('id DESC').paginate(page: params[:page], per_page: 15)
+    @bills = Bill.order('id DESC')
+    @bills = @bills.where('created_at > :yesterday', yesterday: 1.day.ago) if current_user.seller?
+    @bills = @bills.paginate(page: params[:page], per_page: 15)
 
     respond_to do |format|
       format.html # index.html.erb

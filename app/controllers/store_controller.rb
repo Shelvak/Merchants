@@ -1,7 +1,6 @@
 class StoreController < ApplicationController
 
-  check_authorization
-  load_and_authorize_resource
+  # no auth check
 
   proc {|c| c.request.xhr? ? false : 'application'}
 

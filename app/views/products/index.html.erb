@@ -1,6 +1,6 @@
 <h1><%= Product.human_attribute_name(:products) %></h1>
 
-<p> 
+<p>
   <%= form_tag products_path, method: :get do |f_p|%>
     <%= text_field_tag :search, params[:search] %>
     <%= submit_tag t "label.search"  %>
@@ -23,8 +23,8 @@
 
 <br />
 
-<%= link_to t('new.product'), new_product_path %> | 
-<%= link_to 'A Excel', products_path(format: 'csv') %>
+<%= link_to t('new.product'), new_product_path %> |
+<%= link_to 'A Excel', products_path(format: 'csv') if can_export? %>
 <br />
 <%= will_paginate @products %>
 

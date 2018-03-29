@@ -172,7 +172,7 @@ class Bill < ActiveRecord::Base
       csv << []
       csv << ['Nº', 'Fecha', 'Cliente', 'Documento/Cuit', 'Tipo', 'Monto']
       scoped.each do |bill|
-        if bill.client_id
+        if bill.client
           bill.client.tap do |c|
             csv <<  [
               bill.barcode,

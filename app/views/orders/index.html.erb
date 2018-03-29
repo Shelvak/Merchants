@@ -9,7 +9,7 @@
 
 <% @orders.each do |order| %>
   <tr>
-    <td><%= link_to (order.client ? order.client.name.split.first + ' ' + order.client.last_name.split.first : 
+    <td><%= link_to (order.client ? order.client.name.split.first + ' ' + order.client.last_name.split.first :
  t('others.without_client')), order%></td>
   <td> <%= l order.created_at, format: :little %> </td>
   <td> <%= number_to_currency(order.price) %> </td>
@@ -22,5 +22,7 @@
 <%= will_paginate @orders %>
 
 
-<%= link_to "Excel con todas", orders_path(format: "csv") %>
-<%= link_to "Excel con mes", '#', class: 'excel_with_month' %>
+<% if can_export? %>
+  <%= link_to "Excel con todas", orders_path(format: "csv") %> |
+  <%= link_to "Excel con mes", '#', class: 'excel_with_month' %>
+<% end %>

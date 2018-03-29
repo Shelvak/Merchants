@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   include RoleModel
-  roles :admin, :seller
+  AVAILABLE_ROLES = [:admin, :seller]
+  roles AVAILABLE_ROLES
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -30,5 +31,11 @@ class User < ActiveRecord::Base
 
   def role=(role)
     self.roles = [role]
+  end
+
+  AVAILABLE_ROLES.each do |role_name|
+    define_method("#{role_name}?".to_sym) do
+      self.role == role_name
+    end
   end
 end

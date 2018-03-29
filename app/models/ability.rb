@@ -10,13 +10,15 @@ class Ability
   def admin_rules
     can :manage, :all
     can :assign_roles, User
+    can :see_index_table, Box
+    can :export, :report
   end
 
   def seller_rules
-    can :create, :all
-    can :update, :all
-    can :destroy, :all
-    can :edit_profile, User
-    can :update_profile, User
+    can :manage, :all
+    cannot :manage, User
+    cannot :assign_roles, User
+    cannot :see_index_table, Box
+    cannot :export, :report
   end
 end

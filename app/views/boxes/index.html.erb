@@ -1,30 +1,36 @@
 <h1>Caja Diaria</h1>
 
-<table>
-  <tr>
-    <th>Día</th>
-    <th>Mes</th>
-    <th>Año</th>
-    <th>Ventas</th>
-    <th>Total</th>
-  </tr>
+<% if can?(:see_index_table, Box) %>
+  <table>
+    <tr>
+      <th>Día</th>
+      <th>Mes</th>
+      <th>Año</th>
+      <th>Ventas</th>
+      <th>Total</th>
+    </tr>
 
-<% @boxes.each do |box| %>
-  <tr>
-    <td><%= box.day %></td>
-    <td><%= box.month %></td>
-    <td><%= box.year %></td>
-    <td><%= box.count %></td>
-    <td><%= number_to_currency(box.total) %></td>
-  </tr>
+  <% @boxes.each do |box| %>
+    <tr>
+      <td><%= box.day %></td>
+      <td><%= box.month %></td>
+      <td><%= box.year %></td>
+      <td><%= box.count %></td>
+      <td><%= number_to_currency(box.total) %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+  <%= will_paginate @boxes %>
 <% end %>
-</table>
 
-<br />
-
-<%= will_paginate @boxes %>
-
-<%= link_to 'Cierre X', print_close_boxes_path(close: 'X') %> |
-<%= link_to 'Cierre Z', print_close_boxes_path(close: 'Z') %> | 
-<%= link_to "A Excel", boxes_path(format: 'csv') %> | 
-<%= link_to "A Excel por mes", '#', class: 'excel_with_month' %>
+  <br />
+  <br />
+<%= link_to 'Cierre X (caja)', print_close_boxes_path(close: 'X') %> |
+<%= link_to 'Cierre Z (informe)', print_close_boxes_path(close: 'Z') %>
+<% if can_export? %> |
+  <%= link_to "A Excel", boxes_path(format: 'csv') %> |
+  <%= link_to "A Excel por mes", '#', class: 'excel_with_month' %>
+<% end %>

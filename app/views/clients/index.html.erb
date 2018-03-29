@@ -27,4 +27,4 @@
 <%= will_paginate @clients %>
 
 
-<%= link_to "Excel con todas", clients_path(format: "csv") %>
+<%= link_to "Excel con todas", clients_path(format: "csv") if can_export? %>
