@@ -12,6 +12,16 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 set :level, :debug
 
+set :default_environment, {
+  'RUBY_ROOT' => '/home/eltonel/.rubies/ruby-2.3.7',
+  'RUBY_ENGINE' => 'ruby',
+  'RUBY_VERSION' => '2.3.7',
+  'GEM_ROOT' => '/home/eltonel/.rubies/ruby-2.3.7/lib/ruby/gems/2.3.0',
+  'GEM_HOME' => '/home/eltonel/.gem/ruby/2.3.7',
+  'GEM_PATH' => '/home/eltonel/.gem/ruby/2.3.7:/home/eltonel/.rubies/ruby-2.3.7/lib/ruby/gems/2.3.0',
+  'PATH' => '$GEM_ROOT/bin:$PATH'
+}
+
 set :branch, 'master'
 role :web, "190.15.212.171"                          # Your HTTP server, Apache/etc
 role :app, "190.15.212.171"                          # This may be the same as your `Web` server
