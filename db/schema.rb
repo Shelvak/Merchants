@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20180329165707) do
+ActiveRecord::Schema.define(:version => 20180402214029) do
 
   create_table "bills", :force => true do |t|
     t.integer  "barcode",     :limit => 8,                                                 :null => false
@@ -123,6 +123,21 @@ ActiveRecord::Schema.define(:version => 20180329165707) do
   add_index "products", ["barcode"], :name => "index_products_on_barcode", :unique => true
   add_index "products", ["name"], :name => "index_products_on_name"
 
+  create_table "shift_closures", :force => true do |t|
+    t.datetime "start_at",                                                                  :null => false
+    t.datetime "finish_at"
+    t.decimal  "initial_amount",              :precision => 10, :scale => 0, :default => 0, :null => false
+    t.decimal  "cashbox_amount",              :precision => 10, :scale => 0, :default => 0, :null => false
+    t.text     "first_and_last_info_to_json"
+    t.decimal  "payoffs",                     :precision => 10, :scale => 0, :default => 0, :null => false
+    t.decimal  "system_amount",               :precision => 10, :scale => 0, :default => 0, :null => false
+    t.decimal  "final_amount",                :precision => 10, :scale => 0, :default => 0, :null => false
+    t.integer  "user_id",                                                                   :null => false
+    t.text     "comments"
+    t.datetime "created_at",                                                                :null => false
+    t.datetime "updated_at",                                                                :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -145,12 +160,13 @@ ActiveRecord::Schema.define(:version => 20180329165707) do
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
   create_table "versions", :force => true do |t|
-    t.string   "item_type",  :null => false
-    t.integer  "item_id",    :null => false
-    t.string   "event",      :null => false
+    t.string   "item_type",                    :null => false
+    t.integer  "item_id",                      :null => false
+    t.string   "event",                        :null => false
     t.integer  "whodunnit"
     t.text     "object"
     t.datetime "created_at"
+    t.string   "correlation_id", :limit => 50
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"

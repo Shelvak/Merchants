@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
   before_filter :authorize_csv_exports
+  before_filter :set_paper_trail_whodunnit
   protect_from_forgery
   helper_method :current_cart
   helper_method :raise_unless_admin!
@@ -21,10 +22,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def info_for_paper_trail
+    { correlation_id: request.uuid }
+  end
+
   private
 
+  def user_for_paper_trail
+    current_user.try(:id)
+  end
+
   def current_cart
-    puts session[:cart_id]
+    # puts session[:cart_id]
     Cart.find(session[:cart_id])
   rescue ActiveRecord::RecordNotFound
     cart = Cart.create

@@ -1,6 +1,6 @@
-# encoding: UTF-8
-
 class Bill < ActiveRecord::Base
+  has_paper_trail
+
   require 'serialport'
   @@seq = rand(95) + 32
 
@@ -30,10 +30,10 @@ class Bill < ActiveRecord::Base
   end
 
   def assign_barcode_to_bill
-    self.barcode = if self.bill_kind == 'A'
-      (Bill.where(bill_kind: 'A').order(:id).last.try(:barcode) || 0) + 1
+    self.barcode ||= if self.bill_kind == 'A'
+      (Bill.where(bill_kind: 'A').order(:barcode).last.try(:barcode) || 0) + 1
     else
-      (Bill.where("bill_kind != 'A'").order(:id).last.try(:barcode) || 0) + 1
+      (Bill.where("bill_kind != 'A'").order(:barcode).last.try(:barcode) || 0) + 1
     end
   end
 

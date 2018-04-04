@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
   AVAILABLE_ROLES = [:admin, :seller]
   roles AVAILABLE_ROLES
 
+  has_paper_trail
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable

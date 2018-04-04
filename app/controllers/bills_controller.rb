@@ -62,7 +62,7 @@ class BillsController < ApplicationController
     @bill = Bill.find(params[:id])
 
     respond_to do |format|
-      if @bill.update_column(:barcode, params[:bill][:barcode])
+      if @bill.update_attributes(barcode: params[:bill][:barcode])
         format.html { redirect_to(@bill, notice: 'Factura actualizado.') }
         format.xml  { head :ok }
       else

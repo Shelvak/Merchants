@@ -1,4 +1,5 @@
 class Box < ActiveRecord::Base
+  has_paper_trail
 
   scope :between, ->(_start, _end) { where(
     "created_at BETWEEN :start AND :end",
@@ -11,7 +12,7 @@ class Box < ActiveRecord::Base
 
   def self.by_months
     months = []
-    
+
     (0..11).map do |i|
       month = i.months.ago
       _start = month.beginning_of_month.beginning_of_day

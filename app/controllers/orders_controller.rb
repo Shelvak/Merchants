@@ -53,8 +53,8 @@ class OrdersController < ApplicationController
   # POST /orders.json
   def create
     @order = Order.new(params[:order])
-    p @order.valid?
-    p @order.errors
+    # p @order.valid?
+    # p @order.errors
 
     respond_to do |format|
       if @order.save
