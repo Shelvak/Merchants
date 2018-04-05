@@ -35,7 +35,7 @@ class ShiftClosuresController < ApplicationController
 
   # PATCH/PUT /shift_closures/1
   def update
-    if @shift_closure.update(shift_closure_params)
+    if @shift_closure.update_attributes(shift_closure_params)
       redirect_to @shift_closure, notice: 'Shift closure was successfully updated.'
     else
       render :edit

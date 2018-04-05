@@ -10,7 +10,7 @@ jQuery ($)->
       showOn: 'both',
       timeFormat: 'HH:mm',
       stepHour: 1,
-      stepMinute: 5
+      stepMinute: 1
     .removeAttr('data-datetime-picker').focus()
 
   # Due to a bug in jQuery UI, nasty hack...
