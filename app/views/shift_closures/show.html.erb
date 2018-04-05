@@ -51,6 +51,23 @@
         </tbody>
       </table>
     </div>
+    <div class="row-fluid">
+      <h3>Pagos</h3>
+      <table>
+        <thead>
+          <th>Cliente</th>
+          <th>Monto</th>
+        </thead>
+        <tbody>
+          <% @shift_closure.payments.each do |payment| %>
+            <tr>
+              <td><%= link_to payment.client, payment.client %></td>
+              <td><%= payment.deposit %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </p>
   <p>
     <b><%= ShiftClosure.human_attribute_name 'comments' %></b>:

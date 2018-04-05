@@ -58,10 +58,14 @@ class ShiftClosure < ActiveRecord::Base
     bills = Bill.between(
       self.start_at, (self.finish_at || Time.zone.now)
     )
+    payments = Payment.between(
+      self.start_at, (self.finish_at || Time.zone.now)
+    )
     self.system_amount = orders.to_a.sum(&:total_price)
     self.first_and_last_info_to_json = {
       order_ids: orders.pluck(:id).sort,
-      bill_ids: bills.pluck(:id).sort
+      bill_ids: bills.pluck(:id).sort,
+      payment_ids: payments.pluck(:id).sort
     }
   end
 
@@ -80,6 +84,7 @@ class ShiftClosure < ActiveRecord::Base
   def bills
     Bill.where(id: bill_ids)
   end
+
   def order_ids
     first_and_last_info_to_json.fetch(:order_ids, [])
   end
@@ -87,4 +92,13 @@ class ShiftClosure < ActiveRecord::Base
   def orders
     Order.where(id: order_ids)
   end
+
+  def payment_ids
+    first_and_last_info_to_json.fetch(:payment_ids, [])
+  end
+
+  def payments
+    Payment.where(id: payment_ids)
+  end
+
 end
