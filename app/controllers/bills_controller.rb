@@ -7,7 +7,11 @@ class BillsController < ApplicationController
   # GET /bills.xml
   def index
     @bills = Bill.order('id DESC')
-    @bills = @bills.where('created_at > :yesterday', yesterday: 1.day.ago) if current_user.seller?
+    if params[:shift_closure_id]
+      @bills = ShiftClosure.find(params[:shift_closure_id]).bills
+    else
+      @bills = @bills.where('created_at > :yesterday', yesterday: 1.day.ago) if current_user.seller?
+    end
     @bills = @bills.paginate(page: params[:page], per_page: 15)
 
     respond_to do |format|

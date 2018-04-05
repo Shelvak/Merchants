@@ -38,9 +38,18 @@
   <hr />
   <p>
     <div class="row-fluid">
-      <div class="span6">
-        ACA Van las Facturas
-      </div>
+      <table>
+        <thead>
+          <th>Ordenes</th>
+          <th>Facturas</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= link_to @shift_closure.order_ids.size,orders_path(shift_closure_id: @shift_closure.id) %></td>
+            <td><%= link_to @shift_closure.bill_ids.size, bills_path(shift_closure_id: @shift_closure.id) %></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </p>
   <p>

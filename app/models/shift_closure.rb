@@ -8,7 +8,7 @@ class ShiftClosure < ActiveRecord::Base
 
   before_save :make_after_finish_job, if: -> { self.finish_at.present? }
 
-  validates :start_at, :system_amount, :cashbox_amount, :user_id, presence: true
+  validates :start_at, :cashbox_amount, :user_id, presence: true
   validate :not_create_when_one_is_open
 
   validates_datetime :start_at, allow_nil: true, allow_blank: true
@@ -52,9 +52,17 @@ class ShiftClosure < ActiveRecord::Base
   end
 
   def make_after_finish_job
-    # self.system_amount = Print.between(
-    #   self.start_at, (self.finish_at || Time.now)
-    # ).to_a.sum(&:price) if self.system_amount.zero? || partial
+    orders = Order.between(
+      self.start_at, (self.finish_at || Time.zone.now)
+    )
+    bills = Bill.between(
+      self.start_at, (self.finish_at || Time.zone.now)
+    )
+    self.system_amount = orders.to_a.sum(&:total_price)
+    self.first_and_last_info_to_json = {
+      order_ids: orders.pluck(:id).sort,
+      bill_ids: bills.pluck(:id).sort
+    }
   end
 
   def last_cashbox_amount
@@ -63,5 +71,20 @@ class ShiftClosure < ActiveRecord::Base
     else
       self.initial_amount
     end
+  end
+
+  def bill_ids
+    first_and_last_info_to_json.fetch(:bill_ids, [])
+  end
+
+  def bills
+    Bill.where(id: bill_ids)
+  end
+  def order_ids
+    first_and_last_info_to_json.fetch(:order_ids, [])
+  end
+
+  def orders
+    Order.where(id: order_ids)
   end
 end

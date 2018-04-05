@@ -67,7 +67,7 @@ class ShiftClosuresController < ApplicationController
     def check_if_not_finished
       unless can_edit_shift_closure?(@shift_closure)
         redirect_to shift_closure_path(@shift_closure.id),
-          alert: t('view.shift_closures.cannot_edit_when_finished')
+          alert: 'no puede editar un turno ya terminado'
       end
     end
 
