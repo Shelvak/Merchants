@@ -1,6 +1,6 @@
 class ShiftClosuresController < ApplicationController
-  before_action :set_shift_closure, except: [:index, :new]
-  before_action :check_if_not_finished, only: [:edit, :update]
+  before_filter :set_shift_closure, except: [:index, :new, :create]
+  before_filter :check_if_not_finished, only: [:edit, :update]
 
   helper_method :can_edit_shift_closure?
 
@@ -56,10 +56,10 @@ class ShiftClosuresController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def shift_closure_params
-      permitted_params = params.require(:shift_closure).permit(
-        :start_at, :finish_at, :cashbox_amount, :initial_amount,
-        :payoffs, :system_amount, :final_amount, :comments
-      )
+      permitted_params = params[:shift_closure]
+        # :start_at, :finish_at, :cashbox_amount, :initial_amount,
+        # :payoffs, :system_amount, :final_amount, :comments
+      # )
       permitted_params[:user_id] = current_user.id
       permitted_params
     end

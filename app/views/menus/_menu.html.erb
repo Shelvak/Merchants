@@ -7,6 +7,7 @@
   <%= link_to Order.human_attribute_name(:orders), orders_path %>
   <%= link_to "Caja", boxes_path %>
   <%= link_to "Categorias", categories_path %>
+  <%= link_to 'Turnos', shift_closures_path %>
   <%= link_to 'Usuarios', users_path if current_user.admin? %>
   <%= link_to(
     'Logout', destroy_user_session_path, data: { method: :delete }

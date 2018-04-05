@@ -13,9 +13,13 @@ class ShiftClosure < ActiveRecord::Base
 
   validates_datetime :start_at, allow_nil: true, allow_blank: true
   validates_datetime :start_at, allow_nil: true, allow_blank: true,
-    before: :finish_at
+    before: :finish_at,
+    before_message: 'Debe ser anterior al final del turno'
   validates_datetime :finish_at, allow_nil: true, allow_blank: true,
-    after: :start_at, before: -> { Time.zone.now },
+    after: :start_at,
+    after_message: "Debe ser posterior al inicio",
+    before: -> { Time.zone.now },
+    before_message: 'Debe ser anterior a "ahora"',
     if: -> { self.finish_at.present? }
 
 
@@ -43,7 +47,7 @@ class ShiftClosure < ActiveRecord::Base
       (_last = ShiftClosure.unfinished.last).present? &&
       _last.id != self.id
 
-      self.errors.add :base, I18n.t('view.shift_closures.one_still_open')
+      self.errors.add :base, 'Hay un turno abierto'
     end
   end
 
@@ -59,119 +63,5 @@ class ShiftClosure < ActiveRecord::Base
     else
       self.initial_amount
     end
-  end
-
-  def self.to_csv
-    return if all.empty?
-
-    printer_index_to_cols_init = ('B'..'Z').map {|l| l if l.ord.even?}.compact.sort
-    printer_index_to_cols_final = ('B'..'Z').map {|l| l if l.ord.odd?}.compact.sort
-    alphabet = ('A'..'Z').to_a
-
-    # just in case
-    ('A'..'Z').each { |l| alphabet << "A#{l}" }
-
-    title = [
-      human_attribute_name('created_at')
-    ]
-
-    current_printers = all.map do |daily|
-      daily.printers_stats.keys.to_a
-    end.flatten.uniq.sort
-    current_printers.delete('Virtual_PDF_Printer')
-
-    current_printers.each do |printer|
-      title << I18n.t('view.shift_closures.printer_start', printer: printer)
-      title << I18n.t('view.shift_closures.printer_end', printer: printer)
-    end
-
-    title += ['cantidad de copias', 'falladas', 'cetem', 'cca',
-      'vendidas', 'recaudacion real', 'recaudacion teorica', 'diferencia'
-    ]
-
-    csv = [title]
-
-    month = all.first.created_at
-    full_month = (
-      month.beginning_of_month.to_date..month.end_of_month.to_date
-    ).sort.map do |date|
-      filter = all.where(created_at: date.beginning_of_day..date.end_of_day)
-      if filter.any?
-        filter.first
-      else
-        new_daily = ShiftClosure.new(created_at: date)
-        new_daily.initial_amount = 0.0
-        new_daily
-      end
-    end
-
-    full_month.each do |daily|
-      daily_date = I18n.l(daily.created_at.to_date).to_s
-      row = [daily_date]
-      row_number = csv.size + 1
-
-      current_printers.each_with_index do |printer, p_i|
-        row << if row_number != 2
-                 ['=', printer_index_to_cols_final[p_i], row_number-1].join
-               end
-
-        row << if daily.printers_stats.any?
-                 daily.printers_stats[printer]
-               else
-                 ['=', printer_index_to_cols_init[p_i], row_number].join
-               end
-      end
-      letters = ('B'..alphabet[row.size-1]).to_a.reverse
-
-      printers_diff = []
-      loop do
-        begin
-          a, b = letters.pop(2)
-          printers_diff << "(#{a}#{row_number}-#{b}#{row_number})"
-        rescue
-        end
-        break if letters.size <= 1
-      end
-
-      row << '=' + printers_diff.join('+') # total printed copies
-      row << daily.failed_copies
-      row << daily.administration_copies
-      row << 0 # place copies
-
-      sold_copies = (alphabet[row.size-4]..alphabet[row.size-1]).to_a.map do |c|
-        [c, row_number].join
-      end.join('-')
-
-      row << "=IF((#{sold_copies})>0, #{sold_copies}, 0)"
-      row << daily.total_amount.to_s
-      row << daily.system_amount.to_s
-
-      row << '=' + [
-        [alphabet[row.size-2], row_number].join,
-        [alphabet[row.size-1], row_number].join
-      ].join('-')
-
-      csv << row
-    end
-
-    totals = Array.new(csv.last.size)
-
-    # Space for total
-    csv << []
-    csv << []
-
-    totals[0] = I18n.t('view.shift_closures.total')
-    (1..8).each do |i|
-      totals[-i] = [
-        '=SUM(',
-        alphabet[totals.size-i] + '2',
-        ':',
-        alphabet[totals.size-i] + (csv.size-2).to_s,
-        ')'
-      ].join
-    end
-
-    csv << totals
-    csv
   end
 end

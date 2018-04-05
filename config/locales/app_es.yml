@@ -10,6 +10,16 @@ es:
     attributes:
       created_at: 'Creado el'
       updated_at: 'Actualizado el'
+      shift_closure:
+        payoffs: "Pagado a proveedores"
+        start_at: "Inicio"
+        finish_at: "Final"
+        initial_amount: "Caja inicial"
+        final_amount: "Caja final"
+        user_id: "Responsable"
+        system_amount: "Calculo automatico"
+        cashbox_amount: "Extra para proveedores"
+        comments: "Comentarios"
       order:
         order: "Orden"
         orders: "Ordenes"
