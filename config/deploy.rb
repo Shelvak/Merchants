@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 
 set :application, "merchants"
-set :repository,  "https://github.com/Shelvak/Merchants"
+set :repository,  "git@github.com:Shelvak/Merchants.git"
 # set :deploy_to, '/home/rotsen/ruby/www/merchant/'
 set :deploy_to, '/var/rails/merchants'
 set :scm, :git
@@ -10,6 +10,17 @@ set :user, 'eltonel'
 # set :user, 'rotsen'
 set :deploy_via, :remote_cache
 set :use_sudo, false
+set :level, :debug
+
+set :default_environment, {
+  'RUBY_ROOT' => '/home/eltonel/.rubies/ruby-2.3.7',
+  'RUBY_ENGINE' => 'ruby',
+  'RUBY_VERSION' => '2.3.7',
+  'GEM_ROOT' => '/home/eltonel/.rubies/ruby-2.3.7/lib/ruby/gems/2.3.0',
+  'GEM_HOME' => '/home/eltonel/.gem/ruby/2.3.7',
+  'GEM_PATH' => '/home/eltonel/.gem/ruby/2.3.7:/home/eltonel/.rubies/ruby-2.3.7/lib/ruby/gems/2.3.0',
+  'PATH' => '$GEM_ROOT/bin:$PATH'
+}
 
 set :branch, 'master'
 role :web, "190.15.212.171"                          # Your HTTP server, Apache/etc
@@ -29,8 +40,8 @@ namespace :deploy do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
   # desc "reload the database with seed data"
-	task :seed do
-		run "cd #{current_path}; rake db:seed RAILS_ENV=#{rails_env}"
-	end
+  task :seed do
+    run "cd #{current_path}; rake db:seed RAILS_ENV=#{rails_env}"
+  end
 
 end
