@@ -61,7 +61,8 @@ class ShiftClosure < ActiveRecord::Base
     payments = Payment.between(
       self.start_at, (self.finish_at || Time.zone.now)
     )
-    self.system_amount = orders.to_a.sum(&:total_price)
+    self.system_amount = orders.paid.to_a.sum(&:total_price) + payments.to_a.sum(&:deposit)
+
     self.first_and_last_info_to_json = {
       order_ids: orders.pluck(:id).sort,
       bill_ids: bills.pluck(:id).sort,
