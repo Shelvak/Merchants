@@ -1,0 +1,102 @@
+<div class="readonly-data">
+  <h2>Turno</h2>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'start_at' %></b>:
+        <%= l @shift_closure.start_at %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'initial_amount' %></b>:
+        <%= number_to_currency @shift_closure.initial_amount %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'cashbox_amount' %></b>:
+        <%= number_to_currency @shift_closure.cashbox_amount %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'payoffs' %></b>:
+        <%= number_to_currency @shift_closure.payoffs %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'final_amount' %></b>:
+        <%= number_to_currency @shift_closure.final_amount %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'system_amount' %></b>:
+        <%= number_to_currency @shift_closure.system_amount %>
+      </p>
+      <p>
+        <b>Sumatoria (Extra proveedores + caja + pagos clientes - pagos proveedores)</b>:
+        <% plus = (
+          @shift_closure.cashbox_amount +
+          @shift_closure.final_amount +
+          @shift_closure.system_amount
+        ) %>
+        <% minus = (
+          @shift_closure.initial_amount +
+          @shift_closure.payoffs
+        ) %>
+        <%= number_to_currency (plus - minus ) %>
+      </p>
+    </div>
+    <div class="span6">
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'finish_at' %></b>:
+        <%= l(@shift_closure.finish_at) if @shift_closure.finish_at%>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'user_id' %></b>:
+        <%= @shift_closure.user %>
+      </p>
+    </div>
+  </div>
+  <hr />
+  <p>
+    <div class="row-fluid">
+      <table>
+        <thead>
+          <th>Ordenes</th>
+          <th>Facturas</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= link_to @shift_closure.order_ids.size,orders_path(shift_closure_id: @shift_closure.id) %></td>
+            <td><%= link_to @shift_closure.bill_ids.size, bills_path(shift_closure_id: @shift_closure.id) %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row-fluid">
+      <h3>Pagos</h3>
+      <table>
+        <thead>
+          <th>Cliente</th>
+          <th>Monto</th>
+        </thead>
+        <tbody>
+          <% @shift_closure.payments.each do |payment| %>
+            <tr>
+              <td><%= link_to payment.client, payment.client %></td>
+              <td><%= payment.deposit %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </p>
+  <p>
+    <b><%= ShiftClosure.human_attribute_name 'comments' %></b>:
+    <div class="well">
+      <%= simple_format @shift_closure.comments %>
+    </div>
+  </p>
+
+</div>
+<div class="form-actions">
+  <% if @shift_closure.finish_at.present? %>
+    <%= link_to t('label.edit'), edit_shift_closure_path(@shift_closure) %> |
+  <% end %>
+  <%= link_to t('label.list'), shift_closures_path %>
+</div>

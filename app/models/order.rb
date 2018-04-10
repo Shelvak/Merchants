@@ -6,6 +6,7 @@ class Order < ActiveRecord::Base
   has_one :bill, dependent: :destroy
   accepts_nested_attributes_for :line_items, :allow_destroy => true
 
+  scope :paid, -> { where(to_amount: false) }
   scope :between, ->(start, finish) { where(
     "#{table_name}.created_at BETWEEN :s AND :f",
     s: start, f: finish
