@@ -107,6 +107,7 @@ es:
       long: "%A, %d de %B de %Y a las %I:%M %p"
       little: "%d de %B"
       smart: "%d/%m/%Y - %H:%M"
+      minimal: "%d/%m/%Y %H:%M"
     am: "am"
     pm: "pm"
 
@@ -223,5 +224,5 @@ es:
       full_messages:
         format: "%{attribute} %{message}"
 
-        
-  
+
+

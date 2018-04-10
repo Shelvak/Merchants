@@ -2,7 +2,7 @@ jQuery ($)->
   $(document).on 'change', 'input.autocomplete-field', ->
     if /^\s*$/.test($(this).val())
       $(this).next('input.autocomplete-id:first').val('')
-      
+
   $(document).on 'focus', 'input.autocomplete-field:not([data-observed])', ->
     input = $(this)
 
@@ -33,7 +33,7 @@ jQuery ($)->
         if selected.item.bill_kind
           $(input.data('autocomplete-bill-kind-target')).val(
             selected.item.bill_kind).attr('selected', true)
-        
+
         if selected.item.client_kind
           $(
             input.data('autocomplete-client-kind-target')
@@ -50,9 +50,11 @@ jQuery ($)->
         input.trigger 'autocomplete:update', input
 
         false
-    open: -> $('.ui-menu').css('width', input.width())
 
-    input.data('autocomplete')._renderItem = (ul, item)->
+      open: -> $('.ui-menu').css('width', input.width())
+
+    input.data('ui-autocomplete')._renderItem = (ul, item)->
+      ul.addClass('typeahead dropdown-menu')
       $('<li></li>').data('item.autocomplete', item).append(
         $('<a></a>').html(item.label)
       ).appendTo(ul)

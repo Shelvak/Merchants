@@ -7,9 +7,12 @@
 //= require jquery
 //= require jquery-ui
 //= require jquery_ujs
+//= require jquery-customs/jquery-ui-timepicker-addon
+//= require jquery-customs/jquery.ui.datepicker-es
 //= require twitter/bootstrap
 //= require paid
 //= require cart
 //= require generals
 //= require autocomplete
 //= require bills
+//= require datepicker
