@@ -14,10 +14,10 @@ es:
         payoffs: "Pagado a proveedores"
         start_at: "Inicio"
         finish_at: "Final"
-        initial_amount: "Caja inicial"
-        final_amount: "Caja final"
+        initial_amount: "Efectivo inicial"
+        final_amount: "Efectivo final"
         user_id: "Responsable"
-        system_amount: "Calculo automatico"
+        system_amount: "Calculo automatico (caja teórica)"
         cashbox_amount: "Extra para proveedores"
         comments: "Comentarios"
       order:

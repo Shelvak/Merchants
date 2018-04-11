@@ -24,15 +24,14 @@
         <%= number_to_currency @shift_closure.final_amount %>
       </p>
       <p>
-        <b><%= ShiftClosure.human_attribute_name 'system_amount' %></b>:
+        <b><%= ShiftClosure.human_attribute_name 'system_amount' %></b> <span title="Ordenes + Pagos de clientes">(?)</span>:
         <%= number_to_currency @shift_closure.system_amount %>
       </p>
       <p>
-        <b>Sumatoria (Extra proveedores + caja + pagos clientes - pagos proveedores)</b>:
+        <b>Sumatoria</b> <span title="(Extra proveedores + efectivo final) - (pagos proveedores + efectivo inicial)">(?)</span>:
         <% plus = (
           @shift_closure.cashbox_amount +
-          @shift_closure.final_amount +
-          @shift_closure.system_amount
+          @shift_closure.final_amount
         ) %>
         <% minus = (
           @shift_closure.initial_amount +
