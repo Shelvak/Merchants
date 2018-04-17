@@ -8,7 +8,11 @@ class ShiftClosure < ActiveRecord::Base
 
   before_save :make_after_finish_job, if: -> { self.finish_at.present? }
 
-  validates :start_at, :cashbox_amount, :user_id, presence: true
+  validates :start_at, :user_id, presence: true
+  validates :initial_amount, numericality: { greater_than: 0 }
+  validates :cashbox_amount, :final_amount, :payoffs,
+    numericality: { greater_than_or_equal_to: 0 }
+
   validate :not_create_when_one_is_open
 
   validates_datetime :start_at, allow_nil: true, allow_blank: true
@@ -30,6 +34,8 @@ class ShiftClosure < ActiveRecord::Base
 
     self.start_at ||= self.last_closure_or_first_in_day
     self.initial_amount = self.last_cashbox_amount
+    self.final_amount ||=  0.0
+    self.cashbox_amount ||=  0.0
   end
 
   def last_closure_or_first_in_day
@@ -71,10 +77,12 @@ class ShiftClosure < ActiveRecord::Base
   end
 
   def last_cashbox_amount
-    if self.initial_amount.zero?
-      ShiftClosure.last.try(:cashbox_amount) || 0.0
+    return self.initial_amount if self.initial_amount.zero?
+
+    if (last_closure = ShiftClosure.last).present? && last_closure.finish_at.try(:today?)
+      last_closure.final_amount
     else
-      self.initial_amount
+      0.0
     end
   end
 
@@ -102,4 +110,7 @@ class ShiftClosure < ActiveRecord::Base
     Payment.where(id: payment_ids)
   end
 
+  def finished?
+    finish_at.present?
+  end
 end

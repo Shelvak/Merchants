@@ -7,6 +7,7 @@ es:
       product: 'Producto'
       client: 'Cliente'
       order: 'Orden'
+      shift_closure: 'Turno'
     attributes:
       created_at: 'Creado el'
       updated_at: 'Actualizado el'
@@ -122,6 +123,10 @@ es:
   others:
     without_client: 'Sin Cliente'
     to_amount: 'A la cuenta $'
+  label:
+    edit: 'Editar'
+    list: 'Lista'
+    new: 'Nuevo'
   view:
     users:
       update_profile: "Actualizar"

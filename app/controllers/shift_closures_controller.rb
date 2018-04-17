@@ -15,6 +15,9 @@ class ShiftClosuresController < ApplicationController
 
   # GET /shift_closures/new
   def new
+    if (_last = ShiftClosure.unfinished.last).present?
+      redirect_to edit_shift_closure_path(_last), notice: 'Tenes un turno abierto'
+    end
     @shift_closure = ShiftClosure.new
   end
 
@@ -27,7 +30,7 @@ class ShiftClosuresController < ApplicationController
     @shift_closure = ShiftClosure.new(shift_closure_params)
 
     if @shift_closure.save
-      redirect_to @shift_closure, notice: 'Shift closure was successfully created.'
+      redirect_to @shift_closure, notice: 'Turno creado'
     else
       render :new
     end
@@ -36,7 +39,7 @@ class ShiftClosuresController < ApplicationController
   # PATCH/PUT /shift_closures/1
   def update
     if @shift_closure.update_attributes(shift_closure_params)
-      redirect_to @shift_closure, notice: 'Shift closure was successfully updated.'
+      redirect_to @shift_closure, notice: @shift_closure.finished? ? 'Turno cerrado' :  'Turno actualizado'
     else
       render :edit
     end
@@ -45,7 +48,7 @@ class ShiftClosuresController < ApplicationController
   # DELETE /shift_closures/1
   def destroy
     @shift_closure.destroy
-    redirect_to shift_closures_url, notice: 'Shift closure was successfully destroyed.'
+    redirect_to shift_closures_url, notice: 'Turno destruido'
   end
 
   private

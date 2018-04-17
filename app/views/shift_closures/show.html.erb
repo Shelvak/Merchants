@@ -4,9 +4,18 @@
   <div class="row-fluid">
     <div class="span6">
       <p>
-        <b><%= ShiftClosure.human_attribute_name 'start_at' %></b>:
-        <%= l @shift_closure.start_at %>
+        <b><%= ShiftClosure.human_attribute_name 'user_id' %></b>: <%= @shift_closure.user %>
       </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'start_at' %></b>:
+        <%= l @shift_closure.start_at %> |
+        <b><%= ShiftClosure.human_attribute_name 'finish_at' %></b>:
+        <%= l(@shift_closure.finish_at) if @shift_closure.finish_at%>
+      </p>
+      <p>
+    </div>
+
+    <div class="span6">
       <p>
         <b><%= ShiftClosure.human_attribute_name 'initial_amount' %></b>:
         <%= number_to_currency @shift_closure.initial_amount %>
@@ -16,8 +25,8 @@
         <%= number_to_currency @shift_closure.cashbox_amount %>
       </p>
       <p>
-        <b><%= ShiftClosure.human_attribute_name 'payoffs' %></b>:
-        <%= number_to_currency @shift_closure.payoffs %>
+        <b><%= ShiftClosure.human_attribute_name 'payoffs' %> (Detalle/Monto)</b>: <br />
+        <%= @shift_closure.payoffs_detail %> <br /><%= number_to_currency @shift_closure.payoffs %>
       </p>
       <p>
         <b><%= ShiftClosure.human_attribute_name 'final_amount' %></b>:
@@ -28,26 +37,20 @@
         <%= number_to_currency @shift_closure.system_amount %>
       </p>
       <p>
-        <b>Sumatoria</b> <span title="(Extra proveedores + efectivo final) - (pagos proveedores + efectivo inicial)">(?)</span>:
+        <b>Monto Esperado </b> <span title="(Extra proveedores + efectivo final) - (pagos proveedores + efectivo inicial)">(?)</span>:
         <% plus = (
+          @shift_closure.initial_amount +
           @shift_closure.cashbox_amount +
-          @shift_closure.final_amount
+          @shift_closure.system_amount
         ) %>
         <% minus = (
-          @shift_closure.initial_amount +
           @shift_closure.payoffs
         ) %>
         <%= number_to_currency (plus - minus ) %>
       </p>
-    </div>
-    <div class="span6">
       <p>
-        <b><%= ShiftClosure.human_attribute_name 'finish_at' %></b>:
-        <%= l(@shift_closure.finish_at) if @shift_closure.finish_at%>
-      </p>
-      <p>
-        <b><%= ShiftClosure.human_attribute_name 'user_id' %></b>:
-        <%= @shift_closure.user %>
+        <b>Diferencia </b> <span title="(Efectivo final - Monto Esperado)">(?)</span>:
+        <%= number_to_currency @shift_closure.final_amount - (plus - minus ) %>
       </p>
     </div>
   </div>
@@ -94,8 +97,6 @@
 
 </div>
 <div class="form-actions">
-  <% if @shift_closure.finish_at.present? %>
-    <%= link_to t('label.edit'), edit_shift_closure_path(@shift_closure) %> |
-  <% end %>
+  <%= link_to t('label.edit'), edit_shift_closure_path(@shift_closure) %> |
   <%= link_to t('label.list'), shift_closures_path %>
 </div>

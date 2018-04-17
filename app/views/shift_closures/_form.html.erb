@@ -1,6 +1,6 @@
 <h2>Nueva caja</h2>
 
-<%= simple_form_for @shift_closure do |f| %>
+<%= simple_form_for @shift_closure, html: { novalidate: true } do |f| %>
   <% if (errors = f.object.errors).any? && errors[:base].present? %>
     <div class="alert alert-error">
       <% errors[:base].each do |error| %>
@@ -21,30 +21,36 @@
     <hr />
     <div class="row-fluid">
       <div class="span4">
-        <%= f.input :initial_amount %>
+        <%= f.input :initial_amount, as: :decimal %>
       </div>
+      <br />
       <div class="span4">
-        <%= f.input :cashbox_amount %>
+        <%= f.input :cashbox_amount, as: :decimal %>
       </div>
     </div>
+      <br />
     <div class="row-fluid">
       <div class="span4">
-        <%= f.input :payoffs %>
+        Pago a Proveedores (Descripcion / $Monto): <br />
+        <%= f.input :payoffs_detail, placeholder: 'Nombre1, Nombre 2', wrapper: false, label: false %>
+        $ <%= f.input :payoffs, as: :decimal, wrapper: false, label: false %>
       </div>
     </div>
+    <br />
     <div class="span4">
-      <%= f.input :final_amount %>
+      <%= f.input :final_amount, as: :decimal %>
     </div>
     <hr />
     <hr />
     <div class="row-fluid">
-      <%= f.input :comments,
+      Comentarios: <br />
+      <%= f.input :comments, label: false,
         input_html: { class: 'span12' } %>
     </div>
   </div>
 
+  <br />
   <div class="form-actions">
-    <div class="pull-right"><%= yield :form_actions %></div>
     <%= f.button :submit, class: 'btn btn-primary' %>
   </div>
 <% end %>
