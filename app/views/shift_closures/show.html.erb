@@ -29,12 +29,12 @@
         <%= @shift_closure.payoffs_detail %> <br /><%= number_to_currency @shift_closure.payoffs %>
       </p>
       <p>
-        <b><%= ShiftClosure.human_attribute_name 'final_amount' %></b>:
-        <%= number_to_currency @shift_closure.final_amount %>
-      </p>
-      <p>
         <b><%= ShiftClosure.human_attribute_name 'system_amount' %></b> <span title="Ordenes + Pagos de clientes">(?)</span>:
         <%= number_to_currency @shift_closure.system_amount %>
+      </p>
+      <p>
+        <b><%= ShiftClosure.human_attribute_name 'final_amount' %></b>:
+        <%= number_to_currency @shift_closure.final_amount %>
       </p>
       <p>
         <b>Monto Esperado </b> <span title="(Extra proveedores + efectivo final) - (pagos proveedores + efectivo inicial)">(?)</span>:

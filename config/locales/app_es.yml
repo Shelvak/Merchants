@@ -127,6 +127,7 @@ es:
     edit: 'Editar'
     list: 'Lista'
     new: 'Nuevo'
+    search: 'Buscar'
   view:
     users:
       update_profile: "Actualizar"

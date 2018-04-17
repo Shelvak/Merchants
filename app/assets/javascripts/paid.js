@@ -4,25 +4,25 @@ jQuery(function($){
             $(this).parents('tr:first').replaceWith(data);
         });
 
-        
+
         // Clean and focus search
          $('.search').attr('value', null).focus();
-      
+
         // sum to amount
-        var amount = parseFloat($('#amount').val());
-        var original = parseFloat($('#amount').val());
+        var amount = parseFloat($('#amount').val() || 0);
+        var original = parseFloat($('#amount').val() || 0);
         $('#to_amount').on('change', function() {
-       
-           if ($('#to_amount').val() == "" ){ 
+
+           if ($('#to_amount').val() == "" ){
                $('#amount').attr('value', original);
             }else {
                 amount += parseFloat( $('#to_amount').val() )
                 amount = (Math.round(amount*100) /100 ).toFixed(2)
-                $('#amount').attr('value', amount); 
+                $('#amount').attr('value', amount);
                 amount = original;}
-                
+
         });
-        
+
         // Calcule the total price in new order
             var count = $('.order-quantity').length;
             var original_total = parseFloat(
@@ -39,7 +39,7 @@ jQuery(function($){
                 parcial = parseFloat(price * quantity);
                 new_total = parseFloat(new_total + parcial);
             }
-            
+
             discount_element = $("#order_discount");
             if(discount_element.val() >= 0 && discount_element.val() <= 100){
                 discount = parseFloat(1 - discount_element.val()/100);
@@ -49,6 +49,6 @@ jQuery(function($){
              new_total = new_total.replace('.', ',');
              $('#order_total_price').text('$' + new_total);
         });
-        
-        
+
+
 });

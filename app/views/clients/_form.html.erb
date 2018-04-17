@@ -1,7 +1,7 @@
 <%= form_for @client do |f| %>
   <% if @client.errors.any? %>
     <div id="error_explanation">
-      <h2><%= raw 'Fueron encontrados ' +  @client.errors.count.to_s + 
+      <h2><%= raw 'Fueron encontrados ' +  @client.errors.count.to_s +
               ' errores :' if @client.errors.count > 1%>
             <%= raw 'Fue encontrado 1 error :' if @client.errors.count == 1%>
       </h2>
@@ -13,9 +13,11 @@
       </ul>
     </div>
   <% end %>
+
+  <% disabled = @client.persisted? && current_user.seller? %>
 <b>
   <div class="field">
-    <%= f.label :name %>: 
+    <%= f.label :name %>:
     <%= f.text_field :name, autofocus: true, size: 15 %>
     <%= f.label :last_name %>:
     <%= f.text_field :last_name, size: 15 %>
@@ -43,13 +45,13 @@
     <%= f.select(
       :client_kind, client_kind_for_client, selected: @client.client_kind || 'F'
     ) %>
- 
+
     <%= f.label :bill_kind %>
     <%= f.select :bill_kind, bill_kind_for_client, selected: @client.bill_kind || 'B' %>
   </div>
   <div class="field">
     <%= f.label :amount %>
-    $<%= f.text_field :amount, placeholder: '0.00', id: 'amount', size: 8 %>
+    $<%= f.text_field :amount, placeholder: '0.00', id: 'amount', size: 8, disabled: disabled %>
    <%= f.label :to_amount, t('others.to_amount') if params[:action] == 'edit' %>
    <%= f.text_field :to_amount, size: 3, id: 'to_amount' if params[:action] == 'edit' %>
   </div>

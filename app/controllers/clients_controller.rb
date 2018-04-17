@@ -72,6 +72,9 @@ class ClientsController < ApplicationController
   def update
     @client = Client.find(params[:id])
 
+    to_amount = params[:client][:to_amount].to_f
+    params[:client][:amount] = @client.amount.to_f + to_amount
+
     respond_to do |format|
       if @client.update_attributes(params[:client])
         format.html { redirect_to(@client, :notice => t('client.updated')) }
