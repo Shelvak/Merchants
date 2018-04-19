@@ -29,7 +29,7 @@ class ShiftClosure < ActiveRecord::Base
 
   belongs_to :user
 
-  def initialize(attributes={})
+  def initialize(attributes={}, *other)
     super(attributes)
 
     self.start_at ||= self.last_closure_or_first_in_day
@@ -77,7 +77,7 @@ class ShiftClosure < ActiveRecord::Base
   end
 
   def last_cashbox_amount
-    return self.initial_amount if self.initial_amount.zero?
+    return self.initial_amount unless self.initial_amount.zero?
 
     if (last_closure = ShiftClosure.last).present? && last_closure.finish_at.try(:today?)
       last_closure.final_amount
@@ -112,5 +112,51 @@ class ShiftClosure < ActiveRecord::Base
 
   def finished?
     finish_at.present?
+  end
+
+  def expected_amount
+    self.initial_amount + self.cashbox_amount + self.system_amount - self.payoffs
+  end
+
+  def diff_amount
+    self.final_amount - self.expected_amount
+  end
+
+  def self.helpers
+    @helper ||= Class.new do
+      include ActionView::Helpers::NumberHelper
+    end.new
+  end
+
+  def self.to_csv
+    CSV.generate do |csv|
+      scoped.includes(:user).group_by {|sc| sc.start_at.to_date }.sort.each do |date, records|
+        row_1 = []; row_2 = []; row_3 = []; row_4 = []; row_5 = []
+        row_6 = []; row_7 = []; row_8 = []; row_9 = []
+
+        records.each_with_index do |sc, i|
+          row_1 += (['',                         'Fecha', I18n.l(date), ''])
+          row_2 += (['Responsable',              sc.user.to_s, "Turno #{i+1}", ''])
+          row_3 += (['Monto Inicial',            helpers.number_to_currency(sc.initial_amount), '', ''])
+          row_4 += (['Extra Proveedores',        helpers.number_to_currency(sc.cashbox_amount), '', ''])
+          row_5 += (['Pagado Proveedores',       helpers.number_to_currency(sc.payoffs), '', ''])
+          row_6 += (['Calculo Automatico(caja)', helpers.number_to_currency(sc.system_amount), '', ''])
+          row_7 += (['Efectivo Final',           helpers.number_to_currency(sc.final_amount), '', ''])
+          row_8 += (['Monto Esperado',           helpers.number_to_currency(sc.expected_amount), '', ''])
+          row_9 += (['Diferencia',               helpers.number_to_currency(sc.diff_amount), '', ''])
+        end
+        csv << row_1
+        csv << row_2
+        csv << row_3
+        csv << row_4
+        csv << row_5
+        csv << row_6
+        csv << row_7
+        csv << row_8
+        csv << row_9
+        csv << []
+        csv << []
+      end
+    end
   end
 end

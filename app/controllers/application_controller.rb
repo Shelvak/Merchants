@@ -49,4 +49,16 @@ class ApplicationController < ActionController::Base
   def raise_unless_admin!
     raise CanCan::AccessDenied.new("Access denied") unless current_user.admin?
   end
+
+  def make_datetime_range(parameters = nil)
+    if parameters
+      from_datetime = Time.parse(parameters[:from])
+      to_datetime = Time.parse(parameters[:to])
+    end
+
+    from_datetime ||= Time.zone.now.at_beginning_of_day
+    to_datetime ||= Time.zone.now
+
+    [from_datetime, to_datetime].sort
+  end
 end

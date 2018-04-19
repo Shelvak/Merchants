@@ -38,19 +38,11 @@
       </p>
       <p>
         <b>Monto Esperado </b> <span title="(Efectivo inicial + Extra proveedores + Caja - Pagos proveedores)">(?)</span>:
-        <% plus = (
-          @shift_closure.initial_amount +
-          @shift_closure.cashbox_amount +
-          @shift_closure.system_amount
-        ) %>
-        <% minus = (
-          @shift_closure.payoffs
-        ) %>
-        <%= number_to_currency (plus - minus ) %>
+        <%= number_to_currency @shift_closure.expected_amount %>
       </p>
       <p>
         <b>Diferencia </b> <span title="(Efectivo final - Monto Esperado)">(?)</span>:
-        <%= number_to_currency @shift_closure.final_amount - (plus - minus ) %>
+        <%= number_to_currency @shift_closure.diff_amount %>
       </p>
     </div>
   </div>

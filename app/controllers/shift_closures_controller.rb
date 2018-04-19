@@ -1,11 +1,12 @@
 class ShiftClosuresController < ApplicationController
-  before_filter :set_shift_closure, except: [:index, :new, :create]
+  before_filter :set_shift_closure, except: [:index, :new, :create, :export]
   before_filter :check_if_not_finished, only: [:edit, :update]
 
   helper_method :can_edit_shift_closure?
 
   # GET /shift_closures
   def index
+    @from_date, @to_date = *make_datetime_range
     @shift_closures = ShiftClosure.order(id: :desc).paginate(page: params[:page])
   end
 
@@ -49,6 +50,20 @@ class ShiftClosuresController < ApplicationController
   def destroy
     @shift_closure.destroy
     redirect_to shift_closures_url, notice: 'Turno destruido'
+  end
+
+  def export
+    from_date, to_date = *make_datetime_range(params[:interval])
+    shift_closures = ShiftClosure.where(start_at: from_date..to_date)
+
+    response.headers['Cache-Control'] = 'private, no-store'
+    filename = "turnos_#{l(from_date.to_date)}_al_#{l(to_date.to_date)}.csv"
+
+    send_data(
+      shift_closures.to_csv,
+      type: Mime::CSV,
+      disposition: "attachment; filename=#{filename}"
+    )
   end
 
   private

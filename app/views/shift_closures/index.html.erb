@@ -1,3 +1,11 @@
+<%= render(
+  'shared/date_filter',
+  from_date: @from_date,
+  to_date: @to_date,
+  url: export_shift_closures_path,
+  button_text: 'Exportar'
+) if current_user.admin?%>
+
 <table class="table table-striped">
   <thead>
     <tr>
