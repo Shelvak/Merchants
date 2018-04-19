@@ -6,7 +6,7 @@
   <%= simple_form_for :interval, form_opts do |f| %>
   <div class='row-fluid'>
     <div class='span1'>
-      <%= t('view.commons.date_filter.start') %>
+      Desde
     </div>
     <div class='span3'>
       <%= f.input :from, as: :datetime_picker, label: false, input_html: {
@@ -14,7 +14,7 @@
       } %>
     </div>
     <div class='span1'>
-      <%= t('view.commons.date_filter.end') %>
+      Hasta
     </div>
     <div class='span3'>
       <%= f.input :to, as: :datetime_picker, label: false, input_html: {
