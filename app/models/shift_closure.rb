@@ -33,7 +33,7 @@ class ShiftClosure < ActiveRecord::Base
     super(attributes)
 
     self.start_at ||= self.last_closure_or_first_in_day
-    self.initial_amount = self.last_cashbox_amount
+    self.initial_amount ||=  0.0
     self.final_amount ||=  0.0
     self.cashbox_amount ||=  0.0
   end
@@ -76,15 +76,15 @@ class ShiftClosure < ActiveRecord::Base
     }
   end
 
-  def last_cashbox_amount
-    return self.initial_amount unless self.initial_amount.zero?
+  # def last_cashbox_amount
+  #   return self.initial_amount unless self.initial_amount.zero?
 
-    if (last_closure = ShiftClosure.last).present? && last_closure.finish_at.try(:today?)
-      last_closure.final_amount
-    else
-      0.0
-    end
-  end
+  #   if (last_closure = ShiftClosure.last).present? && last_closure.finish_at.try(:today?)
+  #     last_closure.final_amount
+  #   else
+  #     0.0
+  #   end
+  # end
 
   def bill_ids
     first_and_last_info_to_json.fetch(:bill_ids, [])
