@@ -7,7 +7,7 @@ class ShiftClosuresController < ApplicationController
   # GET /shift_closures
   def index
     @from_date, @to_date = *make_datetime_range
-    @shift_closures = ShiftClosure.order(start_at: :desc).paginate(page: params[:page])
+    @shift_closures = ShiftClosure.order('start_at DESC').paginate(page: params[:page])
   end
 
   # GET /shift_closures/1
