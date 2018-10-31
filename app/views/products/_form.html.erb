@@ -1,7 +1,7 @@
 <%= form_for(@product) do |f| %>
   <% if @product.errors.any? %>
     <div id="error_explanation">
-      <h2><%= raw 'Fueron encontrados ' +  @product.errors.count.to_s + 
+      <h2><%= raw 'Fueron encontrados ' +  @product.errors.count.to_s +
               ' errores :' if @product.errors.count > 1%>
             <%= raw 'Fue encontrado 1 error :' if @product.errors.count == 1%>
       </h2>
@@ -15,7 +15,7 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :barcode %> 
+    <%= f.label :barcode %>
     <%= f.text_field :barcode %>
   </div>
   <div class="field">
@@ -50,10 +50,10 @@
   </div><br />
 <div class="field">
   <%= f.label :stock %>
-  <%= f.text_field :stock, id: 'stock', size: 3 %>
+  <%= f.text_field :stock, id: 'stock', size: 3, readonly: current_user.seller? %>
   <% if params[:action] == 'edit' %>
-  <%= t('new.stock') %>
-  <%= f.text_field :newstock, id: 'newstock', size: 3 %>
+    <%= t('new.stock') %>
+    <%= f.text_field :newstock, id: 'newstock', size: 3 %>
   <% end %>
 </div>
   <div class="actions">
