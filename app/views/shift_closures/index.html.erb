@@ -11,7 +11,6 @@
     <tr>
       <th><%= ShiftClosure.human_attribute_name 'start_at' %></th>
       <th><%= ShiftClosure.human_attribute_name 'finish_at' %></th>
-      <th><%# = ShiftClosure.human_attribute_name 'cashbox_amount' %></th>
       <th><%= ShiftClosure.human_attribute_name 'user_id' %></th>
       <th colspan="2"></th>
     </tr>
@@ -22,11 +21,9 @@
       <tr class="<%= 'error' if shift_closure.comments? %>">
         <td><%= l(shift_closure.start_at) %></td>
         <td><%= l(shift_closure.finish_at) if shift_closure.finish_at %></td>
-        <td><%# = number_to_currency shift_closure.cashbox_amount %></td>
         <td><%= shift_closure.user %></td>
         <td><%= link_to 'ver', shift_closure_path(shift_closure) %></td>
         <td><%= link_to 'editar', edit_shift_closure_path(shift_closure) if can_edit_shift_closure?(shift_closure) %></td>
-        <td><%#= link_to_destroy shift_closure if current_user.not_shifted? %></td>
       </tr>
     <% end %>
   </tbody>
