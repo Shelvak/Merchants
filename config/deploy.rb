@@ -23,9 +23,9 @@ set :default_environment, {
 }
 
 set :branch, 'master'
-role :web, "190.15.212.171"                          # Your HTTP server, Apache/etc
-role :app, "190.15.212.171"                          # This may be the same as your `Web` server
-role :db,  "190.15.212.171", :primary => true
+role :web, "eltonel"                          # Your HTTP server, Apache/etc
+role :app, "eltonel"                          # This may be the same as your `Web` server
+role :db,  "eltonel", :primary => true
 # role :web, "rotsenweb.no-ip.org"                          # Your HTTP server, Apache/etc
 # role :app, "rotsenweb.no-ip.org"                          # This may be the same as your `Web` server
 # role :db,  "rotsenweb.no-ip.org", :primary => true

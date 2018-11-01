@@ -21,10 +21,6 @@ group :assets do
   gem 'uglifier'
 end
 
-group :development do
-  gem 'thin'
-end
-
 #group :production do
 gem 'mysql2', '0.3.14'
 #end
@@ -32,3 +28,4 @@ gem 'mysql2', '0.3.14'
 gem 'role_model'
 gem 'cancan'  # usamos el mas viejo
 gem 'byebug'
+gem 'thin'
