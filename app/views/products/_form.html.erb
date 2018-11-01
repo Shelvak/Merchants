@@ -53,7 +53,7 @@
   <%= f.text_field :stock, id: 'stock', size: 3, readonly: current_user.seller? %>
   <% if params[:action] == 'edit' %>
     <%= t('new.stock') %>
-    <%= f.text_field :newstock, id: 'newstock', size: 3 %>
+    <%= f.number_field :newstock, id: 'newstock', size: 3, min: 0 %>
   <% end %>
 </div>
   <div class="actions">
