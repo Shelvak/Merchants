@@ -87,4 +87,27 @@ class ProductsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def summary_sales
+    @to_date = Time.zone.now
+    @from_date = @to_date.beginning_of_month
+
+    respond_to do |format|
+      format.html # index.html.erb
+    end
+  end
+
+  def export_summary_sales
+    from_date, to_date = *make_datetime_range(params[:interval])
+    products = LineItem.with_order.where(created_at: from_date..to_date)
+
+    response.headers['cache-control'] = 'private, no-store'
+    filename = "productos_vendidos_#{l(from_date.to_date)}_al_#{l(to_date.to_date)}.csv"
+
+    send_data(
+      products.to_csv,
+      type: Mime::CSV,
+      disposition: "attachment; filename=#{filename}"
+    )
+  end
 end

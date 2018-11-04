@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(:version => 20180417220639) do
     t.string   "bill_kind",                                                                :null => false
     t.integer  "client_id"
     t.text     "items",                                                                    :null => false
-    t.datetime "created_at",                                                               :null => false
-    t.datetime "updated_at",                                                               :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.decimal  "discount",                 :precision => 15, :scale => 2, :default => 0.0
     t.integer  "order_id"
     t.string   "client_kind", :limit => 1
@@ -35,19 +35,19 @@ ActiveRecord::Schema.define(:version => 20180417220639) do
     t.integer  "year"
     t.integer  "count",                                     :default => 0
     t.decimal  "total",      :precision => 15, :scale => 2, :default => 0.0
-    t.datetime "created_at",                                                 :null => false
-    t.datetime "updated_at",                                                 :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "carts", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "categories", :force => true do |t|
     t.string   "categoria"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "categories", ["categoria"], :name => "index_categories_on_categoria", :unique => true
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(:version => 20180417220639) do
     t.string   "bill_kind"
     t.decimal  "amount",      :precision => 15, :scale => 2, :default => 0.0
     t.decimal  "spend",       :precision => 15, :scale => 2, :default => 0.0
-    t.datetime "created_at",                                                  :null => false
-    t.datetime "updated_at",                                                  :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "uic"
     t.string   "uic_type"
   end
@@ -78,10 +78,10 @@ ActiveRecord::Schema.define(:version => 20180417220639) do
     t.integer  "product_id"
     t.integer  "cart_id"
     t.integer  "order_id"
-    t.decimal  "price",      :precision => 15, :scale => 2, :default => 0.0
+    t.decimal  "price",      :precision => 15, :scale => 2
     t.decimal  "quantity",   :precision => 15, :scale => 2, :default => 1.0
-    t.datetime "created_at",                                                 :null => false
-    t.datetime "updated_at",                                                 :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "orders", :force => true do |t|
@@ -89,8 +89,8 @@ ActiveRecord::Schema.define(:version => 20180417220639) do
     t.string   "bill_kind"
     t.boolean  "to_amount",                                 :default => false
     t.decimal  "price",      :precision => 15, :scale => 2
-    t.datetime "created_at",                                                   :null => false
-    t.datetime "updated_at",                                                   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "orders", ["client_id"], :name => "index_orders_on_client_id"
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(:version => 20180417220639) do
   end
 
   create_table "products", :force => true do |t|
-    t.string   "barcode",                                                      :null => false
+    t.string   "barcode"
     t.string   "name",                                                         :null => false
     t.string   "mark"
     t.string   "fragance"
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(:version => 20180417220639) do
     t.decimal  "pricedist",   :precision => 15, :scale => 2
     t.decimal  "iva",         :precision => 15, :scale => 2, :default => 21.0
     t.integer  "category_id"
-    t.datetime "created_at",                                                   :null => false
-    t.datetime "updated_at",                                                   :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.decimal  "earn",        :precision => 15, :scale => 2, :default => 30.0
   end
 

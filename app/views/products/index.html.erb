@@ -24,7 +24,8 @@
 <br />
 
 <%= link_to t('new.product'), new_product_path %> |
-<%= link_to 'A Excel', products_path(format: 'csv') if can_export? %>
+<%= link_to 'A Excel', products_path(format: 'csv') if can_export? %> |
+<%= link_to 'Resumen vendidos', summary_sales_products_path if can_export? %>
 <br />
 <%= will_paginate @products %>
 

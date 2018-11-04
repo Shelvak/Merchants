@@ -1,0 +1,8 @@
+<h2>Productos vendidos entre fechas</h2>
+<%= render(
+  'shared/date_filter',
+  from_date: @from_date,
+  to_date: @to_date,
+  url: export_summary_sales_products_path,
+  button_text: 'Exportar'
+) if current_user.admin?%>

@@ -29,3 +29,4 @@ gem 'role_model'
 gem 'cancan'  # usamos el mas viejo
 gem 'byebug'
 gem 'thin'
+gem 'awesome_print'
