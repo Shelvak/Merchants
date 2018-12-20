@@ -30,11 +30,15 @@ class Bill < ActiveRecord::Base
   end
 
   def assign_barcode_to_bill
-    self.barcode ||= if self.bill_kind == 'A'
-      (Bill.where(bill_kind: 'A').order(:barcode).last.try(:barcode) || 0) + 1
-    else
-      (Bill.where("bill_kind != 'A'").order(:barcode).last.try(:barcode) || 0) + 1
-    end
+    return if self.barcode.present?
+
+    _scope = if self.bill_kind == 'A'
+               Bill.where(bill_kind: 'A')
+             else
+               Bill.where("bill_kind != 'A'")
+             end
+
+    self.barcode = (_scope.reorder('created_at DESC').first.try(:barcode) || 0) + 1
   end
 
   def plus_to_client_spend
