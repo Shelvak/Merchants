@@ -17,6 +17,8 @@ module Merchants
 
     config.i18n.default_locale = :es
 
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '*.yml').to_s]
+
     config.encoding = "utf-8"
 
     config.filter_parameters += [:password]

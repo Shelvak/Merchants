@@ -1,0 +1,145 @@
+---
+es:
+  activerecord:
+    attributes:
+      bill:
+        amount: "Monto"
+        barcode: "Nº"
+        bill: "Factura"
+        bill_kind: "Tipo de factura"
+        bills: "Facturas"
+        client: "Cliente"
+        created_at: "Creado el"
+        date: "Día"
+      cart:
+        quantity: "Cantidad"
+      category:
+        category: "Categoría"
+      client:
+        address: "Dirección"
+        amount: "Cuenta"
+        bill_kind: "Factura"
+        cellphone: "Celular"
+        client: "Cliente"
+        client_kind: "Tipo Cliente"
+        clients: "Clientes"
+        document: "Documento"
+        last_name: "Apellido"
+        location: "Localidad"
+        name: "Nombre"
+        new: "Nuevo Cliente"
+        phone: "Teléfono"
+        spend: "Gastado"
+        uic: "Número"
+        uic_type: "CUI"
+      created_at: "Creado el"
+      monthly:
+        bought: "Comprado"
+        month: "Mes"
+        monthlies: "Mensualidad"
+        months: "Mensualidades"
+        paid: "Pagado?"
+        sold: "Vendido"
+        to_pay: "A pagar"
+        year: "Año"
+      order:
+        order: "Orden"
+        orders: "Ordenes"
+      product:
+        barcode: "Código de barra"
+        category: "Categoría"
+        count: "Cantidad"
+        fragance: "Caracteristica"
+        mark: "Marca"
+        name: "Nombre"
+        price: "Precio"
+        product: "Producto"
+        products: "Productos"
+        uni: "Unidad"
+      shift_closure:
+        cashbox_amount: "Extra para proveedores"
+        comments: "Comentarios"
+        final_amount: "Efectivo final"
+        finish_at: "Final"
+        initial_amount: "Efectivo inicial"
+        payoffs: "Pagado a proveedores"
+        start_at: "Inicio"
+        system_amount: "Calculo automatico (caja teórica)"
+        user_id: "Responsable"
+      updated_at: "Actualizado el"
+      user:
+        remember_me: "Recordarme"
+        username: "Usuario"
+    models:
+      bill: "Factura"
+      category: "Categoría"
+      client: "Cliente"
+      monthly: "Mensualidad"
+      order: "Orden"
+      product: "Producto"
+      shift_closure: "Turno"
+  cart:
+    buy: "Comprar"
+    emptied: "Carrito vaciado"
+    empty: "Vaciar"
+    total: "Sub Total: "
+  client:
+    create: "Cliente creado"
+    destroyed: "Cliente eliminado"
+    updated: "Cliente actualizado"
+  label:
+    back: "Volver"
+    cancel: "Cancelar"
+    close: "Cerrar"
+    destroy: "Eliminar"
+    edit: "Editar"
+    editing: "Editando"
+    list: "Lista"
+    new: "Nuevo"
+    search: "Buscar"
+    show: "Ver"
+    sure: "Seguro??"
+  monthly:
+    paid: "Pagado"
+    unpaid: "Pagado??"
+  new:
+    bill: "Nueva Factura"
+    client: "Nuevo Cliente"
+    product: "Nuevo Producto"
+    stock: "Nuevo stock"
+  order:
+    created: "Orden Creada"
+    destroyed: "Orden Eliminada"
+    updated: "Orden actualizada"
+  others:
+    to_amount: "A la cuenta $"
+    without_client: "Sin Cliente"
+  product:
+    save: "Guardar"
+  titles:
+    cart: "Carrito"
+    order: "Ordenes"
+    store: "Mercado"
+  view:
+    clients:
+      client_kind:
+        exempt_iva: "IVA EXENTO"
+        final_consumer: "CONSUMIDOR FINAL"
+        iva_resp_insc: "IVA RESPONSABLE INSCRIPTO"
+        iva_resp_not_insc: "IVA RESPONSABLE NO INSCRIPTO"
+        not_categoriced: "SUJETO NO CATEGORIZADO"
+        not_resp: "NO RESPONSABLE"
+        resp_monot: "RESPONSABLE MONOTRIBUTO"
+        small_event_contributor: "PEQUEÑO CONTRIBUYENTE EVENTUAL"
+        social_monot: "MONOTRIBUTISTA SOCIAL"
+        social_small_event_contributor: "PEQUEÑO CONTRIBUYENTE EVENTUAL SOCIAL"
+    users:
+      created: "Creado"
+      destroyed: "Borrado"
+      update_password: "Actualizar password"
+      update_profile: "Actualizar"
+      updated: "Actualizado"
+  will_paginate:
+    next_label: "Siguiente &raquo"
+    page_gap: "..."
+    previous_label: "&laquo; Anterior"

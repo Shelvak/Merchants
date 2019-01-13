@@ -6,8 +6,8 @@ class Product < ActiveRecord::Base
   before_save :up_product
 
   #validates
-  has_many :line_items
-  has_many :orders, through: :line_items
+  has_many :line_items, dependent: :restrict
+  has_many :orders, through: :line_items, dependent: :restrict
   belongs_to :category
 
   validates :barcode, :name, :count, :price, :presence => true
@@ -25,7 +25,7 @@ class Product < ActiveRecord::Base
     if line_items.empty?
       return true
     else
-      error.add(:base, 'Producto presente en carrito')
+      self.errors.add(:base, 'Producto presente en carrito')
       return false
     end
   end
