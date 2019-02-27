@@ -32,14 +32,11 @@ development:
 #   password: '12452'
 
 production:
-  adapter: mysql2
+  adapter: postgresql
   encoding: utf8
   database: merchant_production
-  # database: merchant
-  username: eltonel
-  password: 'malbec214'
-  #username: rotsen
-  #password: '12452'
+  username: merchant
+  password: merchant
   host: localhost
   pool: 5
   reconnect: false
