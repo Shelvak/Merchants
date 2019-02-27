@@ -32,7 +32,7 @@ end
 
 #group :production do
 # gem 'mysql2', '0.3.14'
-gem 'pg', '~> 0.11.0'
+gem 'pg', '~> 0.21.0'
 #end
 #
 gem 'role_model'
