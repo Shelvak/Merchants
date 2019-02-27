@@ -1,47 +1,39 @@
-require 'bundler/capistrano'
+# config valid for current version and patch releases of Capistrano
+lock "~> 3.11.0"
 
 set :application, "merchants"
-set :repository,  "git@github.com:Shelvak/Merchants.git"
-# set :deploy_to, '/home/rotsen/ruby/www/merchant/'
+set :repo_url,  "https://github.com/Shelvak/Merchants"
 set :deploy_to, '/var/rails/merchants'
-set :scm, :git
-# set :port, 26
-set :user, 'eltonel'
-# set :user, 'rotsen'
 set :deploy_via, :remote_cache
-set :use_sudo, false
-set :level, :debug
+set :branch, 'master'
 
-set :default_environment, {
-  'RUBY_ROOT' => '/home/eltonel/.rubies/ruby-2.3.7',
-  'RUBY_ENGINE' => 'ruby',
-  'RUBY_VERSION' => '2.3.7',
-  'GEM_ROOT' => '/home/eltonel/.rubies/ruby-2.3.7/lib/ruby/gems/2.3.0',
-  'GEM_HOME' => '/home/eltonel/.gem/ruby/2.3.7',
-  'GEM_PATH' => '/home/eltonel/.gem/ruby/2.3.7:/home/eltonel/.rubies/ruby-2.3.7/lib/ruby/gems/2.3.0',
-  'PATH' => '$GEM_ROOT/bin:$PATH'
+set :ssh_options, {
+  forward_agent: true,
+  # verbose: :debug
 }
 
-set :branch, 'master'
-role :web, "eltonel"                          # Your HTTP server, Apache/etc
-role :app, "eltonel"                          # This may be the same as your `Web` server
-role :db,  "eltonel", :primary => true
-# role :web, "rotsenweb.no-ip.org"                          # Your HTTP server, Apache/etc
-# role :app, "rotsenweb.no-ip.org"                          # This may be the same as your `Web` server
-# role :db,  "rotsenweb.no-ip.org", :primary => true
+set :log_level, :debug
 
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
+# Default value for :format is :airbrussh.
+# set :format, :airbrussh
 
-namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{File.join(current_path,'tmp','restart.txt')}"
-  end
-  # desc "reload the database with seed data"
-  task :seed do
-    run "cd #{current_path}; rake db:seed RAILS_ENV=#{rails_env}"
-  end
+# Default value for :pty is false
+# set :pty, true
 
-end
+# Default value for :linked_files is []
+# append :linked_files, "config/database.yml"
+
+# Default value for linked_dirs is []
+# append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for local_user is ENV['USER']
+# set :local_user, -> { `git config user.name`.chomp }
+
+# Default value for keep_releases is 5
+# set :keep_releases, 5
+
+# Uncomment the following to require manually verifying the host key before first deploy.
+# set :ssh_options, verify_host_key: :secure
