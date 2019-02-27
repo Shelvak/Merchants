@@ -10,15 +10,14 @@
 #       Install PostgreSQL and put its /bin directory on your path.
 
 development:
-  adapter: mysql2
+  adapter: postgresql
   encoding: utf8
   database: merchants_development
-  username: root
+  username: docker
   password: docker
   host: 127.0.0.1
-  port: 3306
+  port: 5432
   pool: 5
-  reconnect: false
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

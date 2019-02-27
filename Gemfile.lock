@@ -91,7 +91,7 @@ GEM
     paper_trail (5.2.3)
       activerecord (>= 3.0, < 6.0)
       request_store (~> 1.1)
-    pg (1.1.4)
+    pg (0.11.0)
     polyglot (0.3.5)
     power_assert (1.0.1)
     rack (1.4.7)
@@ -176,7 +176,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   paper_trail
-  pg
+  pg (~> 0.11.0)
   rails (~> 3.2)
   role_model
   sass-rails
