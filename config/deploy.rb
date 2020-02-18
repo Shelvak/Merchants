@@ -22,7 +22,7 @@ set :default_environment, {
   'PATH' => '$GEM_ROOT/bin:$PATH'
 }
 
-set :branch, 'master'
+set :branch, 'eltonel'
 role :web, "eltonel"                          # Your HTTP server, Apache/etc
 role :app, "eltonel"                          # This may be the same as your `Web` server
 role :db,  "eltonel", :primary => true

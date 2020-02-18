@@ -1,0 +1,12 @@
+chdir: "/var/rails/merchants/current"
+environment: production
+address: 0.0.0.0
+port: 5000
+log: "/var/rails/merchants/current/log/thin.log"
+pid: tmp/pids/thin.pid
+max_conns: 1024
+max_persistent_conns: 100
+require: []
+wait: 60
+threadpool_size: 10
+daemonize: true
