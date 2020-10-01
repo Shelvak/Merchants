@@ -22,7 +22,7 @@ group :assets do
 end
 
 #group :production do
-gem 'mysql2', '0.3.14'
+gem 'mysql2', '< 0.4.0'
 #end
 #
 gem 'role_model'
